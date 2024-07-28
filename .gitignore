@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/SmartHome/FileContentIndex
+/packages/Microsoft.Bcl.AsyncInterfaces.1.1.0
+/packages/Microsoft.IdentityModel.Abstractions.6.34.0/lib
+/packages/Microsoft.IdentityModel.JsonWebTokens.6.34.0/lib
+/packages
+/SmartHome/bin/Debug
+/SmartHome/obj/Debug
+/.vs/SmartHome/v17
