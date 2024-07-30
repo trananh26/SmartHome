@@ -24,7 +24,8 @@
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
-                <RowDefinition Height="24*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="22*"/>
                 <RowDefinition Height="1.5*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#2E4053">
@@ -64,8 +65,18 @@
                 <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
             </Grid>
 
-
             <Grid Grid.Row="4" Background="#2E4053">
+                <Button Height="60" x:Name="btnSetting" Click="btnSetting_Click"  VerticalAlignment="Top"
+                            Background="#2E4053" BorderBrush="#2E4053" >
+                </Button>
+                <md:PackIcon Kind="Settings" Width="35" Height="35" VerticalAlignment="Center" Background="#2E4053"
+                  Margin="30,0,0,0" MouseDown="btnSetting_Click"/>
+                <TextBlock Text="Cài đặt" FontSize="16" Height="20" Margin="90,0,0,0" 
+                            Foreground="White" MouseDown="btnSetting_Click"/>
+                <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
+            </Grid>
+
+            <Grid Grid.Row="5" Background="#2E4053">
                 <Button Height="60" x:Name="btnExit" Click="btnExit_Click" VerticalAlignment="Top"
                  Background="#2E4053" BorderBrush="#2E4053" >
                 </Button>
@@ -75,9 +86,7 @@
                         Foreground="White" MouseDown="btnExit_Click"/>
                 <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
             </Grid>
-            <Grid Grid.Row="5" Background="#2E4053">
 
-            </Grid>
             <Grid Grid.Row="6" Background="#2E4053">
                 <Image Source=".\Resources\Logo user.png"
                 Width="60" HorizontalAlignment="Left"/>
@@ -139,7 +148,7 @@
                         <StackPanel>
                             <md:PackIcon Kind="Leaf" Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
-                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblVolt"/>
+                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblTemp1"/>
                             <TextBlock Text="Nhiệt độ phòng ngủ" VerticalAlignment="Bottom" FontSize="18" 
                                      Margin="15,5,0,0" FontFamily="Times New Roman" />
 
@@ -153,7 +162,7 @@
                         <StackPanel>
                             <md:PackIcon Kind="SatelliteVariant"  Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
-                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblAmpe"/>
+                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblHum1"/>
                             <TextBlock Text="Độ ẩm phòng ngủ" VerticalAlignment="Bottom" FontSize="18" 
                                      Margin="15,5,0,0" FontFamily="Times New Roman" />
 
@@ -166,7 +175,7 @@
                         <StackPanel>
                             <md:PackIcon Kind="Radiator" Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
-                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblWoat"/>
+                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblTemp2"/>
                             <TextBlock Text="Nhiệt độ phòng bếp" VerticalAlignment="Bottom" FontSize="18" 
                                      Margin="15,5,0,0" FontFamily="Times New Roman" />
 
@@ -178,7 +187,7 @@
                         <StackPanel>
                             <md:PackIcon Kind="Steam" Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
-                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblKWoatH"/>
+                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblHum2"/>
                             <TextBlock Text="Độ ẩm phòng bếp" VerticalAlignment="Bottom" FontSize="18" 
                                      Margin="15,5,0,0" FontFamily="Times New Roman" />
 
@@ -190,7 +199,7 @@
                         <StackPanel>
                             <md:PackIcon Kind="Radioactive" Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
-                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblPf"/>
+                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblGas"/>
                             <TextBlock Text="Nồng độ khí gas" VerticalAlignment="Bottom" FontSize="18" 
                                      Margin="15,5,0,0" FontFamily="Times New Roman" />
                         </StackPanel>
