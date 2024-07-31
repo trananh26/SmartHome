@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ACS.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=23.6.0.0, Culture=neutral, PublicKeyToken=716fcc553a201e56, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -161,8 +164,17 @@
     <Compile Include="View\TemplatureLineChart.xaml.cs">
       <DependentUpon>TemplatureLineChart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="wdAddUser.xaml.cs">
+      <DependentUpon>wdAddUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="wdHistory.xaml.cs">
+      <DependentUpon>wdHistory.xaml</DependentUpon>
+    </Compile>
     <Compile Include="wdManualControl.xaml.cs">
       <DependentUpon>wdManualControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="wdUserManagement.xaml.cs">
+      <DependentUpon>wdUserManagement.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -180,7 +192,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="wdAddUser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wdHistory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="wdManualControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wdUserManagement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,7 +236,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="ACS.ico" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ACS.ico" />
     <Resource Include="Resources\green dot.png" />

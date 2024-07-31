@@ -69,9 +69,9 @@
                 <Button Height="60" x:Name="btnSetting" Click="btnSetting_Click"  VerticalAlignment="Top"
                             Background="#2E4053" BorderBrush="#2E4053" >
                 </Button>
-                <md:PackIcon Kind="Settings" Width="35" Height="35" VerticalAlignment="Center" Background="#2E4053"
+                <md:PackIcon Kind="User" Width="35" Height="35" VerticalAlignment="Center" Background="#2E4053"
                   Margin="30,0,0,0" MouseDown="btnSetting_Click"/>
-                <TextBlock Text="Cài đặt" FontSize="16" Height="20" Margin="90,0,0,0" 
+                <TextBlock Text="Người dùng" FontSize="16" Height="20" Margin="90,0,0,0" 
                             Foreground="White" MouseDown="btnSetting_Click"/>
                 <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
             </Grid>
@@ -87,7 +87,9 @@
                 <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
             </Grid>
 
-            <Grid Grid.Row="6" Background="#2E4053">
+            <Grid Grid.Row="6" Background="#2E4053"></Grid>
+            
+            <Grid Grid.Row="7" Background="#2E4053">
                 <Image Source=".\Resources\Logo user.png"
                 Width="60" HorizontalAlignment="Left"/>
                 <TextBlock x:Name="lblUser" Text="Admin" Foreground="White" FontSize="12" Height="15" Margin="50,-10,0,0"/>

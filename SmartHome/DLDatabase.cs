@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FireSharp.Config;
 using FireSharp.Response;
 using Newtonsoft.Json;
+using RestSharp.Extensions;
 
 namespace SmartHome
 {
@@ -68,10 +69,14 @@ namespace SmartHome
         /// Set trạng thái thiết bị
         /// </summary>
         /// <param name="eqiupment"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public async void SetEqiupmentState(Eqiupment eqiupment)
         {
-            FirebaseResponse response = await client.UpdateTaskAsync("Control", eqiupment);
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = await client.UpdateTaskAsync("/Control", eqiupment);
+            }
         }
 
         /// <summary>
@@ -151,6 +156,91 @@ namespace SmartHome
                 }
             }
             return lst;
+        }
+
+        /// <summary>
+        /// Lấy danh sách vân tay
+        /// </summary>
+        /// <returns></returns>
+        public List<FingerData> GetFingerList()
+        {
+            List<FingerData> lst = new List<FingerData>();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/Finger");
+                Dictionary<string, FingerData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, FingerData>>(Result.Body.ToString());
+
+                if (sensorDataDict != null)
+                {
+                    foreach (var entry in sensorDataDict)
+                    {
+                        FingerData _ss = new FingerData();
+                        _ss.UpdateTime = entry.Value.UpdateTime;
+                        _ss.FingerID = entry.Value.FingerID;
+                        _ss.UserName = entry.Value.UserName;
+                        _ss.FullName = entry.Value.FullName;
+                        _ss.Job = entry.Value.Job;
+
+                        lst.Add(_ss);
+                    }
+                }
+            }
+            return lst;
+        }
+
+        /// <summary>
+        /// Thêm người dùng
+        /// </summary>
+        /// <param name="user"></param>
+        public async void AddNewUser(FingerData user)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = client.Set("Finger/" + user.UserName, user);
+            }
+        }
+
+        /// <summary>
+        /// Lấy trạng thái hiện tại cảu vân tay
+        /// </summary>
+        /// <returns></returns>
+        public FingerStatus GetCurentFingerStatus()
+        {
+            FingerStatus _status = new FingerStatus();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/FingerStatus");
+                Dictionary<string, string> State = JsonConvert.DeserializeObject<Dictionary<string, string>>(Result.Body.ToString());
+                if (State != null)
+                {
+                    foreach (var key in State)
+                    {
+                        if (key.Key == "Status")
+                            _status.Status = key.Value;
+                    }
+                }
+            }
+            return _status;
+        }
+
+        /// <summary>
+        /// Set trạng thái vân tay
+        /// </summary>
+        /// <param name="Status"></param>
+        public async void SetFingerStatus(FingerStatus Status)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = await client.UpdateTaskAsync("/FingerStatus", Status);
+            }
         }
     }
 }

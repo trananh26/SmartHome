@@ -42,5 +42,31 @@ namespace SmartHome
             lst = oDL.GetHistoryByWeek();
             return lst;
         }
+
+        public List<FingerData> GetFingerList()
+        {
+            List<FingerData> lst = new List<FingerData>();
+            lst = oDL.GetFingerList();
+            return lst;
+        }
+
+        /// <summary>
+        /// Thêm người dùng mới
+        /// </summary>
+        /// <param name="user"></param>
+        public void AddNewUser(FingerData user)
+        {
+            oDL.AddNewUser(user);
+        }
+
+        public FingerStatus GetCurentFingerStatus()
+        {
+            return oDL.GetCurentFingerStatus();
+        }
+
+        public void SetFingerStatus(FingerStatus Status)
+        {
+            oDL.SetFingerStatus(Status);
+        }
     }
 }

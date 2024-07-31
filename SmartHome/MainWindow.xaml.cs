@@ -23,6 +23,8 @@ namespace SmartHome
     public partial class MainWindow : Window
     {
         BLDatabase oBL = new BLDatabase();
+        List<FingerData> lstUser = new List<FingerData>();
+        DispatcherTimer timerCloseDoor;
 
         public MainWindow()
         {
@@ -31,15 +33,25 @@ namespace SmartHome
             timer.Interval = TimeSpan.FromSeconds(30);
             timer.Tick += Timer_Tick;
             timer.Start();
+
+            DispatcherTimer timerCheckDoor = new DispatcherTimer();
+            timerCheckDoor.Interval = TimeSpan.FromSeconds(1);
+            timerCheckDoor.Tick += timerCheckDoor_Tick;
+            timerCheckDoor.Start();
+
+            timerCloseDoor = new DispatcherTimer();
+            timerCloseDoor.Interval = TimeSpan.FromSeconds(5);
+            timerCloseDoor.Tick += timerCloseDoor_Tick;
         }
+
 
         /// <summary>
         /// Lấy số liệu 1 tuần lên biểu đồ
         /// </summary>
         private void GetParamForChart()
         {
-            //    List<SensorData> lst = new List<SensorData>();
-            //    lst = oBL.GetHistoryByWeek();
+            List<SensorData> lst = new List<SensorData>();
+            lst = oBL.GetHistoryByWeek();
             //    double[] k = new double[7];
             //    double[] Volt = new double[7];
             //    double[] Ampe = new double[7];
@@ -184,7 +196,6 @@ namespace SmartHome
 
         }
 
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             try
@@ -199,18 +210,77 @@ namespace SmartHome
             }
         }
 
+        private void timerCheckDoor_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                ///Kiểm tra mở cửa
+                FingerStatus _fingerStatus = new FingerStatus();
+                _fingerStatus = oBL.GetCurentFingerStatus();
+                if (!string.IsNullOrEmpty(_fingerStatus.Status) && _fingerStatus.Status.StartsWith("i"))
+                {
+                    foreach (FingerData finger in lstUser)
+                    {
+                        if (finger.FingerID.ToString() == _fingerStatus.Status.Substring(1))
+                        {
+                            //mở cửa
+                            Eqiupment _eq = new Eqiupment();
+                            _eq.Door = 0;
+                            oBL.SetEqiupmentState(_eq);
+                            timerCloseDoor.Start();
+
+                            //đẩy status về 0
+                            _fingerStatus.Status = "0";
+                            oBL.SetFingerStatus(_fingerStatus);
+
+                            //lưu lịch sử
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ee)
+            {
+                MessageBox.Show(ee.Message, "Error");
+            }
+
+        }
+
+        /// <summary>
+        /// đóng cửa
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timerCloseDoor_Tick(object sender, EventArgs e)
+        {
+            Eqiupment _eq = new Eqiupment();
+            _eq.Door = 1;
+            oBL.SetEqiupmentState(_eq);
+            timerCloseDoor.Stop();
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
                 GetCurrentParam();
                 GetParamForChart();
+                LoadFingerList();
             }
             catch (Exception ee)
             {
 
                 MessageBox.Show(ee.Message);
             }
+        }
+
+        /// <summary>
+        /// Load ra danh sách vân tay
+        /// </summary>
+        private void LoadFingerList()
+        {
+            lstUser.Clear();
+            lstUser = oBL.GetFingerList();
         }
 
         private void btnDashboard_Click(object sender, RoutedEventArgs e)
@@ -220,7 +290,8 @@ namespace SmartHome
 
         private void btnHistory_Click(object sender, RoutedEventArgs e)
         {
-
+            wdHistory frm = new wdHistory();
+            frm.ShowDialog();
         }
 
         private void btnControl_Click(object sender, RoutedEventArgs e)
@@ -236,7 +307,9 @@ namespace SmartHome
 
         private void btnSetting_Click(object sender, RoutedEventArgs e)
         {
-
+            wdUserManagement frm = new wdUserManagement();
+            frm.ShowDialog();
+            LoadFingerList();
         }
     }
 }

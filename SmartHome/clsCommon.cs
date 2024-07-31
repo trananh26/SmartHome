@@ -42,13 +42,22 @@ namespace SmartHome
     /// <summary>
     /// dữ liệu quản lý vân tay
     /// </summary>
-    public class FingerSensorData
+    public class FingerData
     {
-        [JsonProperty("epoch_time")]    //thời  gian cập nhật
-        public long ID { get; set; }
+        [JsonProperty("UpdateTime")]    //thời  gian cập nhật
+        public DateTime UpdateTime { get; set; }
 
-        [JsonProperty("data")]   //Nhiệt độ phòng 1
-        public string Data { get; set; }
+        [JsonProperty("FingerID")]   //Nhiệt độ phòng 1
+        public int FingerID { get; set; }
+
+        [JsonProperty("UserName")]   //Nhiệt độ phòng 1
+        public string UserName { get; set; }
+
+        [JsonProperty("FullName")]   //Nhiệt độ phòng 1
+        public string FullName { get; set; }
+
+        [JsonProperty("Job")]   //Nhiệt độ phòng 1
+        public string Job { get; set; }
     }
 
     /// <summary>
@@ -78,4 +87,11 @@ namespace SmartHome
 
     }
 
+
+    public class FingerStatus
+    {
+      
+        [JsonProperty("Status")]
+        public string Status { get; set; }
+    }
 }
