@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:SmartHome"
         mc:Ignorable="d" Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
-        Title="wdHistory" Height="450" Width="800">
+        Title="wdHistory" Height="600" Width="850">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.3*"/>
             <RowDefinition Height="4*"/>
-            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="1">
             <DataGrid  x:Name="dtgHistory"/>
