@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartHome"
             mc:Ignorable="d" WindowStyle="None" 
-    Title="wdManualControl" Height="500" Width="800" 
+    Title="wdManualControl" Height="500" Width="700" 
     Loaded="Window_Loaded" Background="#25232A"
     WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
@@ -34,7 +34,7 @@
                             HorizontalAlignment="Center" FontWeight="Bold" FontSize="20"/>
                 </Grid>
                 <Grid Grid.Row="1">
-                    <Button Width="152" x:Name="btnDoor" Background="#4A4458" BorderThickness="0"
+                    <Button Width="155" x:Name="btnDoor" Background="#4A4458" BorderThickness="0"
                             Content="Mở cửa phòng khách" Click="btnDoor_Click" FontFamily="Times New Roman"/>
                 </Grid>
                 <Grid Grid.Row="2">
@@ -43,18 +43,18 @@
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <Button Width="152" x:Name="btnLamp11" Background="#4A4458" BorderThickness="0"
+                        <Button Width="155" x:Name="btnLamp11" Background="#4A4458" BorderThickness="0"
                                 Content="Bật thiết bị 1" Click="btnLamp11_Click" FontFamily="Times New Roman"/>
                     </Grid>
                     <Grid Grid.Column="1">
-                        <Button Width="152" x:Name="btnLamp12" Background="#4A4458" BorderThickness="0"
+                        <Button Width="155" x:Name="btnLamp12" Background="#4A4458" BorderThickness="0"
                             Content="Bật thiết bị 1" Click="btnLamp12_Click" FontFamily="Times New Roman"/>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="0.9*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
@@ -87,6 +87,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="0.2*"/>
                         <RowDefinition Height="1*"/>
+                        <RowDefinition Height="0.25*"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <TextBlock Text="Nhà bếp" VerticalAlignment="Center" Foreground="Wheat"
