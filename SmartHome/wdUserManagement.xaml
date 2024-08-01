@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:SmartHome"
         mc:Ignorable="d" Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
-        Title="wdUserManagement" Height="450" Width="800">
+        Title="wdUserManagement" Height="450" Width="650">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="0.6*"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="0.6*"/>
         </Grid.RowDefinitions>
