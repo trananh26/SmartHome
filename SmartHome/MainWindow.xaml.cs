@@ -225,7 +225,7 @@ namespace SmartHome
                         {
                             //mở cửa
                             Eqiupment _eq = new Eqiupment();
-                            _eq.Door = 0;
+                            _eq.Door = 1;
                             oBL.SetEqiupmentState(_eq);
                             timerCloseDoor.Start();
 
@@ -254,7 +254,7 @@ namespace SmartHome
         private void timerCloseDoor_Tick(object sender, EventArgs e)
         {
             Eqiupment _eq = new Eqiupment();
-            _eq.Door = 1;
+            _eq.Door = 0;
             oBL.SetEqiupmentState(_eq);
             timerCloseDoor.Stop();
         }
