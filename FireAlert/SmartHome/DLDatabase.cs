@@ -18,8 +18,8 @@ namespace SmartHome
 
         IFirebaseConfig config = new FirebaseConfig
         {
-            AuthSecret = "AIzaSyDCo4NSp_tt1TV0ol74gR1734NpucwJ7v4",
-            BasePath = "https://smart-house-haui-default-rtdb.asia-southeast1.firebasedatabase.app/"
+            AuthSecret = "AIzaSyDHxXR1AFGkcMPdYk6u6KJSFP52xM2Yq4o",
+            BasePath = "https://firealert-d11d7-default-rtdb.firebaseio.com/"
         };
 
         /// <summary>
