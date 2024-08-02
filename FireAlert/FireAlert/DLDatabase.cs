@@ -9,7 +9,7 @@ using FireSharp.Response;
 using Newtonsoft.Json;
 using RestSharp.Extensions;
 
-namespace SmartHome
+namespace FireAlert
 {
     public class DLDatabase
     {

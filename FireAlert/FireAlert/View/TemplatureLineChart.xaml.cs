@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LiveCharts;
 
-namespace SmartHome.View
+namespace FireAlert.View
 {
     /// <summary>
     /// Interaction logic for TemplatureLineChart.xaml

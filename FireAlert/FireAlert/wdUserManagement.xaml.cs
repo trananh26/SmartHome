@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace SmartHome
+namespace FireAlert
 {
     /// <summary>
     /// Interaction logic for wdUserManagement.xaml

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace SmartHome
+namespace FireAlert
 {
     /// <summary>
     /// Interaction logic for wdManualControl.xaml

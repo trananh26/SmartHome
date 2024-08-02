@@ -11,7 +11,7 @@ using static Twilio.Rest.Api.V2010.Account.MessageResource;
 using Twilio.Clients;
 using System.Windows;
 
-namespace SmartHome
+namespace FireAlert
 {
     public class clsAlert
     {
