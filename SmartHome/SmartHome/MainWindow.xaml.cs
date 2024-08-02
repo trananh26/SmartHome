@@ -195,7 +195,7 @@ namespace SmartHome
             lblHum2.Text = _ss.Hum2;
             lblGas.Text = _ss.Gas;
 
-            if (double.Parse(_ss.Gas) >= 0.2 && !_isAlarm)
+            if (double.Parse(_ss.Gas) >= 0.0 && !_isAlarm)
             {
                 _isAlarm = true;
                 _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại nhà bếp");

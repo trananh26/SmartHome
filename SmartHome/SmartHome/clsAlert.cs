@@ -45,7 +45,7 @@ namespace SmartHome
         {
             // Thông tin Twilio Account SID và Auth Token
             const string accountSid = "ACf776adac527a68541586aba65fad0f87";
-            const string authToken = "450c76b7833f75be737ae80077c09274";
+            const string authToken = "422a350eea53354c62073fc590e087b6";
 
             // Khởi tạo Twilio Client
             TwilioClient.Init(accountSid, authToken);
