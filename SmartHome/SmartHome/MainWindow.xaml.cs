@@ -23,9 +23,10 @@ namespace SmartHome
     public partial class MainWindow : Window
     {
         BLDatabase oBL = new BLDatabase();
+        clsAlert _alert= new clsAlert();
         List<FingerData> lstUser = new List<FingerData>();
         DispatcherTimer timerCloseDoor;
-
+        private bool _isAlarm = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -194,6 +195,15 @@ namespace SmartHome
             lblHum2.Text = _ss.Hum2;
             lblGas.Text = _ss.Gas;
 
+            if (double.Parse(_ss.Gas) >= 0.2 && !_isAlarm)
+            {
+                _isAlarm = true;
+                _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại nhà bếp");
+            }
+            else
+                _isAlarm = false;
+
+            ///check nhiệt độ, độ ẩm tại phòng ngủ nếu có trẻ em
         }
 
         private void Timer_Tick(object sender, EventArgs e)
