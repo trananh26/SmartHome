@@ -2,6 +2,5 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/FireAlert/.vs/FireAlert/FileContentIndex
-/FireAlert/.vs/FireAlert/v17/.suo
-/FireAlert/.vs/FireAlert/v17/.suo
+/FireAlert/SmartHome/Debug
+/.vs/SmartHome/FileContentIndex
