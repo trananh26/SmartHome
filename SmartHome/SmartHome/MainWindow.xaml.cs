@@ -58,6 +58,7 @@ namespace SmartHome
             double[] Hum1 = new double[7];
             double[] Temp2 = new double[7];
             double[] Hum2 = new double[7];
+            double[] Gas2 = new double[7];
 
             foreach (SensorData sensor in lst)
             {
@@ -67,7 +68,8 @@ namespace SmartHome
                     Temp1[0] += double.Parse(sensor.Temp1);
                     Hum1[0] += double.Parse(sensor.Hum1);
                     Temp2[0] += double.Parse(sensor.Temp2);
-                    Hum2[0] = double.Parse(sensor.Hum2);
+                    Hum2[0] += double.Parse(sensor.Hum2);
+                    Gas2[0] += double.Parse(sensor.Gas);
                     k[0]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-1))
@@ -75,7 +77,8 @@ namespace SmartHome
                     Temp1[1] += double.Parse(sensor.Temp1);
                     Hum1[1] += double.Parse(sensor.Hum1);
                     Temp2[1] += double.Parse(sensor.Temp2);
-                    Hum2[1] = double.Parse(sensor.Hum2);
+                    Hum2[1] += double.Parse(sensor.Hum2);
+                    Gas2[1] += double.Parse(sensor.Gas);
                     k[1]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-2))
@@ -83,7 +86,8 @@ namespace SmartHome
                     Temp1[2] += double.Parse(sensor.Temp1);
                     Hum1[2] += double.Parse(sensor.Hum1);
                     Temp2[2] += double.Parse(sensor.Temp2);
-                    Hum2[2] = double.Parse(sensor.Hum2);
+                    Hum2[2] += double.Parse(sensor.Hum2);
+                    Gas2[2] += double.Parse(sensor.Gas);
                     k[2]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-3))
@@ -91,7 +95,8 @@ namespace SmartHome
                     Temp1[3] += double.Parse(sensor.Temp1);
                     Hum1[3] += double.Parse(sensor.Hum1);
                     Temp2[3] += double.Parse(sensor.Temp2);
-                    Hum2[3] = double.Parse(sensor.Hum2);
+                    Hum2[3] += double.Parse(sensor.Hum2);
+                    Gas2[3] += double.Parse(sensor.Gas);
                     k[3]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-4))
@@ -99,7 +104,8 @@ namespace SmartHome
                     Temp1[4] += double.Parse(sensor.Temp1);
                     Hum1[4] += double.Parse(sensor.Hum1);
                     Temp2[4] += double.Parse(sensor.Temp2);
-                    Hum2[4] = double.Parse(sensor.Hum2);
+                    Hum2[4] += double.Parse(sensor.Hum2);
+                    Gas2[4] += double.Parse(sensor.Gas);
                     k[4]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-5))
@@ -107,7 +113,8 @@ namespace SmartHome
                     Temp1[5] += double.Parse(sensor.Temp1);
                     Hum1[5] += double.Parse(sensor.Hum1);
                     Temp2[5] += double.Parse(sensor.Temp2);
-                    Hum2[5] = double.Parse(sensor.Hum2);
+                    Hum2[5] += double.Parse(sensor.Hum2);
+                    Gas2[5] += double.Parse(sensor.Gas);
                     k[5]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-6))
@@ -115,7 +122,8 @@ namespace SmartHome
                     Temp1[6] += double.Parse(sensor.Temp1);
                     Hum1[6] += double.Parse(sensor.Hum1);
                     Temp2[6] += double.Parse(sensor.Temp2);
-                    Hum2[6] = double.Parse(sensor.Hum2);
+                    Hum2[6] += double.Parse(sensor.Hum2);
+                    Gas2[6] += double.Parse(sensor.Gas);
                     k[6]++;
                 }
             }
@@ -134,22 +142,23 @@ namespace SmartHome
                 Hum1[i] = Math.Round(Hum1[i] / k[i], 3) >= 0 ? Math.Round(Hum1[i] / k[i], 3) : 0;
                 Temp2[i] = Math.Round(Temp2[i] / k[i], 3) >= 0 ? Math.Round(Temp2[i] / k[i], 3) : 0;
                 Hum2[i] = Math.Round(Hum2[i] / k[i], 3) >= 0 ? Math.Round(Hum2[i] / k[i], 3) : 0;
+                Gas2[i] = Math.Round(Gas2[i] / k[i], 3) >= 0 ? Math.Round(Gas2[i] / k[i], 3) : 0;
             }
 
             //gán giá trị theo từng mốc lên biểu đồ
             uc_Temp1Report.srValue.Values = new ChartValues<double> { Temp1[6], Temp1[5], Temp1[4], Temp1[3], Temp1[2], Temp1[1], Temp1[0] };
             uc_Hum1Report.srValue.Values = new ChartValues<double> { Hum1[6], Hum1[5], Hum1[4], Hum1[3], Hum1[2], Hum1[1], Hum1[0] };
             uc_Temp2Report.srValue.Values = new ChartValues<double> { Temp2[6], Temp2[5], Temp2[4], Temp2[3], Temp2[2], Temp2[1], Temp2[0] };
-            uc_Hum2Report.srValue.Values = new ChartValues<double> { Hum2[6], Hum2[5], Hum2[4], Hum2[3], Hum2[2], Hum2[1], Hum2[0] };
+            uc_Gas2Report.srValue.Values = new ChartValues<double> { Gas2[6], Gas2[5], Gas2[4], Gas2[3], Gas2[2], Gas2[1], Gas2[0] };
 
             //Gán label cho biểu đồ
             uc_Temp1Report.srValue.Title = "Nhiệt độ trung bình phòng ngủ";
             uc_Hum1Report.srValue.Title = "Độ ẩm trung bình phòng ngủ";
-            uc_Hum2Report.srValue.Title = "Độn ẩm trung bình phòng bếp";
+            uc_Gas2Report.srValue.Title = "Nồng độ khí gas trung bình phòng bếp";
             uc_Temp2Report.srValue.Title = "Nhiệt độ trung bình phòng bếp";
 
 
-            uc_Hum2Report.Label.Labels = new[] {
+            uc_Gas2Report.Label.Labels = new[] {
                            DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
                            DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
                            DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),

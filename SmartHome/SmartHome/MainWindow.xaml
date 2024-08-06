@@ -235,7 +235,7 @@
                     <v:TemplatureLineChart x:Name="uc_Temp2Report"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <v:TemplatureLineChart x:Name="uc_Hum2Report"/>
+                    <v:TemplatureLineChart x:Name="uc_Gas2Report"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="3">
@@ -268,7 +268,7 @@
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <TextBlock Text="Biểu đồ lịch sử độ ẩm phòng bếp" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Biểu đồ lịch sử nồng độ khí gas phòng bếp" VerticalAlignment="Center" HorizontalAlignment="Center"
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
             </Grid>
