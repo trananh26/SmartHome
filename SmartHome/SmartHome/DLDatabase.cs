@@ -242,5 +242,15 @@ namespace SmartHome
                 FirebaseResponse response = await client.UpdateTaskAsync("/FingerStatus", Status);
             }
         }
+
+        public async void SaveInOutHistory(FingerData finger)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = await client.UpdateTaskAsync("/InOutHistory", finger);
+            }
+        }
     }
 }

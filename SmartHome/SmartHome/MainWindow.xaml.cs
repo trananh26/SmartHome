@@ -23,7 +23,7 @@ namespace SmartHome
     public partial class MainWindow : Window
     {
         BLDatabase oBL = new BLDatabase();
-        clsAlert _alert= new clsAlert();
+        clsAlert _alert = new clsAlert();
         List<FingerData> lstUser = new List<FingerData>();
         DispatcherTimer timerCloseDoor;
         private bool _isAlarm = false;
@@ -53,135 +53,129 @@ namespace SmartHome
         {
             List<SensorData> lst = new List<SensorData>();
             lst = oBL.GetHistoryByWeek();
-            //    double[] k = new double[7];
-            //    double[] Volt = new double[7];
-            //    double[] Ampe = new double[7];
-            //    double[] Woat = new double[7];
-            //    double[] KwH = new double[8];
+            double[] k = new double[7];
+            double[] Temp1 = new double[7];
+            double[] Hum1 = new double[7];
+            double[] Temp2 = new double[7];
+            double[] Hum2 = new double[7];
 
-            //    foreach (SensorData sensor in lst)
-            //    {
-            //        // tính từng thông số theo ngày
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date)
-            //        {
-            //            Volt[0] += double.Parse(sensor.Voltage);
-            //            Ampe[0] += double.Parse(sensor.Current);
-            //            Woat[0] += double.Parse(sensor.Power);
-            //            KwH[0] = double.Parse(sensor.Energy);
-            //            k[0]++;
-            //        }
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-1))
-            //        {
-            //            Volt[1] += double.Parse(sensor.Voltage);
-            //            Ampe[1] += double.Parse(sensor.Current);
-            //            Woat[1] += double.Parse(sensor.Power);
-            //            KwH[1] = double.Parse(sensor.Energy);
-            //            k[1]++;
-            //        }
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-2))
-            //        {
-            //            Volt[2] += double.Parse(sensor.Voltage);
-            //            Ampe[2] += double.Parse(sensor.Current);
-            //            Woat[2] += double.Parse(sensor.Power);
-            //            KwH[2] = double.Parse(sensor.Energy);
-            //            k[2]++;
-            //        }
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-3))
-            //        {
-            //            Volt[3] += double.Parse(sensor.Voltage);
-            //            Ampe[3] += double.Parse(sensor.Current);
-            //            Woat[3] += double.Parse(sensor.Power);
-            //            KwH[3] = double.Parse(sensor.Energy);
-            //            k[3]++;
-            //        }
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-4))
-            //        {
-            //            Volt[4] += double.Parse(sensor.Voltage);
-            //            Ampe[4] += double.Parse(sensor.Current);
-            //            Woat[4] += double.Parse(sensor.Power);
-            //            KwH[4] = double.Parse(sensor.Energy);
-            //            k[4]++;
-            //        }
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-5))
-            //        {
-            //            Volt[5] += double.Parse(sensor.Voltage);
-            //            Ampe[5] += double.Parse(sensor.Current);
-            //            Woat[5] += double.Parse(sensor.Power);
-            //            KwH[5] = double.Parse(sensor.Energy);
-            //            k[5]++;
-            //        }
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-6))
-            //        {
-            //            Volt[6] += double.Parse(sensor.Voltage);
-            //            Ampe[6] += double.Parse(sensor.Current);
-            //            Woat[6] += double.Parse(sensor.Power);
-            //            KwH[6] = double.Parse(sensor.Energy);
-            //            k[6]++;
-            //        }
+            foreach (SensorData sensor in lst)
+            {
+                // tính từng thông số theo ngày
+                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date)
+                {
+                    Temp1[0] += double.Parse(sensor.Temp1);
+                    Hum1[0] += double.Parse(sensor.Hum1);
+                    Temp2[0] += double.Parse(sensor.Temp2);
+                    Hum2[0] = double.Parse(sensor.Hum2);
+                    k[0]++;
+                }
+                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-1))
+                {
+                    Temp1[1] += double.Parse(sensor.Temp1);
+                    Hum1[1] += double.Parse(sensor.Hum1);
+                    Temp2[1] += double.Parse(sensor.Temp2);
+                    Hum2[1] = double.Parse(sensor.Hum2);
+                    k[1]++;
+                }
+                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-2))
+                {
+                    Temp1[2] += double.Parse(sensor.Temp1);
+                    Hum1[2] += double.Parse(sensor.Hum1);
+                    Temp2[2] += double.Parse(sensor.Temp2);
+                    Hum2[2] = double.Parse(sensor.Hum2);
+                    k[2]++;
+                }
+                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-3))
+                {
+                    Temp1[3] += double.Parse(sensor.Temp1);
+                    Hum1[3] += double.Parse(sensor.Hum1);
+                    Temp2[3] += double.Parse(sensor.Temp2);
+                    Hum2[3] = double.Parse(sensor.Hum2);
+                    k[3]++;
+                }
+                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-4))
+                {
+                    Temp1[4] += double.Parse(sensor.Temp1);
+                    Hum1[4] += double.Parse(sensor.Hum1);
+                    Temp2[4] += double.Parse(sensor.Temp2);
+                    Hum2[4] = double.Parse(sensor.Hum2);
+                    k[4]++;
+                }
+                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-5))
+                {
+                    Temp1[5] += double.Parse(sensor.Temp1);
+                    Hum1[5] += double.Parse(sensor.Hum1);
+                    Temp2[5] += double.Parse(sensor.Temp2);
+                    Hum2[5] = double.Parse(sensor.Hum2);
+                    k[5]++;
+                }
+                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-6))
+                {
+                    Temp1[6] += double.Parse(sensor.Temp1);
+                    Hum1[6] += double.Parse(sensor.Hum1);
+                    Temp2[6] += double.Parse(sensor.Temp2);
+                    Hum2[6] = double.Parse(sensor.Hum2);
+                    k[6]++;
+                }
+            }
 
-            //        if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-7))
-            //        {
-            //            KwH[7] = double.Parse(sensor.Energy);
-            //        }
+            k[0] = k[0] > 0 ? k[0] : 1;
+            k[1] = k[1] > 0 ? k[1] : 1;
+            k[2] = k[2] > 0 ? k[2] : 1;
+            k[3] = k[3] > 0 ? k[3] : 1;
+            k[4] = k[4] > 0 ? k[4] : 1;
+            k[5] = k[5] > 0 ? k[5] : 1;
+            k[6] = k[6] > 0 ? k[6] : 1;
 
-            //    }
+            for (int i = 0; i < 7; i++)
+            {
+                Temp1[i] = Math.Round(Temp1[i] / k[i], 3) >= 0 ? Math.Round(Temp1[i] / k[i], 3) : 0;
+                Hum1[i] = Math.Round(Hum1[i] / k[i], 3) >= 0 ? Math.Round(Hum1[i] / k[i], 3) : 0;
+                Temp2[i] = Math.Round(Temp2[i] / k[i], 3) >= 0 ? Math.Round(Temp2[i] / k[i], 3) : 0;
+                Hum2[i] = Math.Round(Hum2[i] / k[i], 3) >= 0 ? Math.Round(Hum2[i] / k[i], 3) : 0;
+            }
 
-            //    k[0] = k[0] > 0 ? k[0] : 1;
-            //    k[1] = k[1] > 0 ? k[1] : 1;
-            //    k[2] = k[2] > 0 ? k[2] : 1;
-            //    k[3] = k[3] > 0 ? k[3] : 1;
-            //    k[4] = k[4] > 0 ? k[4] : 1;
-            //    k[5] = k[5] > 0 ? k[5] : 1;
-            //    k[6] = k[6] > 0 ? k[6] : 1;
+            //gán giá trị theo từng mốc lên biểu đồ
+            uc_Temp1Report.srValue.Values = new ChartValues<double> { Temp1[6], Temp1[5], Temp1[4], Temp1[3], Temp1[2], Temp1[1], Temp1[0] };
+            uc_Hum1Report.srValue.Values = new ChartValues<double> { Hum1[6], Hum1[5], Hum1[4], Hum1[3], Hum1[2], Hum1[1], Hum1[0] };
+            uc_Temp2Report.srValue.Values = new ChartValues<double> { Temp2[6], Temp2[5], Temp2[4], Temp2[3], Temp2[2], Temp2[1], Temp2[0] };
+            uc_Hum2Report.srValue.Values = new ChartValues<double> { Hum2[6], Hum2[5], Hum2[4], Hum2[3], Hum2[2], Hum2[1], Hum2[0] };
 
-            //    for (int i = 0; i < 7; i++)
-            //    {
-            //        Volt[i] = Math.Round(Volt[i] / k[i], 3) >= 0 ? Math.Round(Volt[i] / k[i], 3) : 0;
-            //        Ampe[i] = Math.Round(Ampe[i] / k[i], 3) >= 0 ? Math.Round(Ampe[i] / k[i], 3) : 0;
-            //        Woat[i] = Math.Round(Woat[i] / k[i], 3) >= 0 ? Math.Round(Woat[i] / k[i], 3) : 0;
-            //        KwH[i] = Math.Round(KwH[i] - KwH[i + 1], 3) >= 0 ? Math.Round(KwH[i] - KwH[i + 1], 3) : 0;
-            //    }
-
-            //    //gán giá trị theo từng mốc lên biểu đồ
-            //    uc_AmpeReport.srValue.Values = new ChartValues<double> { Ampe[6], Ampe[5], Ampe[4], Ampe[3], Ampe[2], Ampe[1], Ampe[0] };
-            //    uc_VoltReport.srValue.Values = new ChartValues<double> { Volt[6], Volt[5], Volt[4], Volt[3], Volt[2], Volt[1], Volt[0] };
-            //    uc_WoatReport.srValue.Values = new ChartValues<double> { Woat[6], Woat[5], Woat[4], Woat[3], Woat[2], Woat[1], Woat[0] };
-            //    uc_KWhReport.srValue.Values = new ChartValues<double> { KwH[6], KwH[5], KwH[4], KwH[3], KwH[2], KwH[1], KwH[0] };
-
-            //    //Gán label cho biểu đồ
-            //    uc_AmpeReport.srValue.Title = "Cường độ dòng điện trung bình";
-            //    uc_VoltReport.srValue.Title = "Điện áp trung bình";
-            //    uc_KWhReport.srValue.Title = "Điện năng tiêu thụ";
-            //    uc_WoatReport.srValue.Title = "Công suất tải trung bình";
+            //Gán label cho biểu đồ
+            uc_Temp1Report.srValue.Title = "Nhiệt độ trung bình phòng ngủ";
+            uc_Hum1Report.srValue.Title = "Độ ẩm trung bình phòng ngủ";
+            uc_Hum2Report.srValue.Title = "Độn ẩm trung bình phòng bếp";
+            uc_Temp2Report.srValue.Title = "Nhiệt độ trung bình phòng bếp";
 
 
-            //    uc_KWhReport.Label.Labels = new[] {
-            //                DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
-            //                DateTime.Now.ToString("dd/MM/yy")
-            //        };
+            uc_Hum2Report.Label.Labels = new[] {
+                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
+                           DateTime.Now.ToString("dd/MM/yy")
+                   };
 
-            //    uc_AmpeReport.Label.Labels = new[] {
-            //                DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
-            //                DateTime.Now.ToString("dd/MM/yy")
-            //        };
+            uc_Temp1Report.Label.Labels = new[] {
+                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
+                           DateTime.Now.ToString("dd/MM/yy")
+                   };
 
-            //    uc_VoltReport.Label.Labels = new[] {
-            //                DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
-            //                DateTime.Now.ToString("dd/MM/yy")
-            //        };
+            uc_Hum1Report.Label.Labels = new[] {
+                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
+                           DateTime.Now.ToString("dd/MM/yy")
+                   };
 
-            //    uc_WoatReport.Label.Labels = new[] {
-            //                DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
-            //                DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
-            //                DateTime.Now.ToString("dd/MM/yy")
-            //        };
+            uc_Temp2Report.Label.Labels = new[] {
+                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
+                           DateTime.Now.ToString("dd/MM/yy")
+                   };
         }
 
         private void GetCurrentParam()
@@ -244,7 +238,7 @@ namespace SmartHome
                             oBL.SetFingerStatus(_fingerStatus);
 
                             //lưu lịch sử
-
+                            oBL.SaveInOutHistory(finger);
                         }
                     }
                 }

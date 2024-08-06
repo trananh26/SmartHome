@@ -217,10 +217,10 @@
                     <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <v:TemplatureLineChart x:Name="uc_VoltReport"/>
+                    <v:TemplatureLineChart x:Name="uc_Hum1Report"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <v:TemplatureLineChart x:Name="uc_AmpeReport"/>
+                    <v:TemplatureLineChart x:Name="uc_Temp1Report"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="4">
@@ -232,10 +232,10 @@
                     <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <v:TemplatureLineChart x:Name="uc_WoatReport"/>
+                    <v:TemplatureLineChart x:Name="uc_Temp2Report"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <v:TemplatureLineChart x:Name="uc_KWhReport"/>
+                    <v:TemplatureLineChart x:Name="uc_Hum2Report"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="3">
@@ -247,11 +247,11 @@
                     <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <TextBlock Text="Biểu đồ lịch sử điện áp" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Biểu đồ lịch sử độ ẩm phòng ngủ" VerticalAlignment="Center" HorizontalAlignment="Center"
                             FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <TextBlock Text="Biểu đồ lịch sử cường độ dòng điện" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Biểu đồ lịch sử nhiệt độ phòng ngủ" VerticalAlignment="Center" HorizontalAlignment="Center"
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
             </Grid>
@@ -264,11 +264,11 @@
                     <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <TextBlock Text="Biểu đồ lịch sử công suất tải" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Biểu đồ lịch sử nhiệt độ phòng bếp" VerticalAlignment="Center" HorizontalAlignment="Center"
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <TextBlock Text="Biểu đồ lịch sử điện năng tiêu thụ" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Biểu đồ lịch sử độ ẩm phòng bếp" VerticalAlignment="Center" HorizontalAlignment="Center"
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
             </Grid>

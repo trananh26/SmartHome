@@ -68,5 +68,10 @@ namespace SmartHome
         {
             oDL.SetFingerStatus(Status);
         }
+
+        public void SaveInOutHistory(FingerData finger)
+        {
+            oDL.SaveInOutHistory(finger);
+        }
     }
 }
