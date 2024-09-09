@@ -9,11 +9,11 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
-        Title="wdAddUser" Height="500" Width="400">
+        Title="wdAddUser" Height="300" Width="450">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2.5*"/>
             <RowDefinition Height="0.6*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -21,14 +21,43 @@
         </Grid>
         
         <Grid Grid.Row="1">
-            
+            <StackPanel>
+                <TextBlock Width="110" Height="30" VerticalAlignment="Bottom" Margin="20,30,0,0"                        
+                           Text="Tên người dùng (*)" HorizontalAlignment="Left" FontWeight="Bold"/>
+
+                <TextBox x:Name="txtUserName" VerticalAlignment="Top"  Height="40" Width="280" 
+                         Margin="0,-45,10,0" AcceptsReturn="True" TextWrapping="Wrap" 
+                         HorizontalAlignment="Right" VerticalContentAlignment="Center"                     
+                         VerticalScrollBarVisibility="Auto" md:HintAssist.Hint="Tên người dùng"                      
+                         IsEnabled="{Binding Path=IsChecked, 
+                         ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" />
+
+                <TextBlock Width="110" Height="30" VerticalAlignment="Bottom" Margin="20,20,0,0"                        
+                        Text="Tên đầy đủ (*)" HorizontalAlignment="Left" FontWeight="Bold"/>
+
+                <TextBox x:Name="txtFullName" VerticalAlignment="Top"  Height="40" Width="280" 
+                         Margin="0,-45,10,0" AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Right" 
+                         VerticalContentAlignment="Center" VerticalScrollBarVisibility="Auto" 
+                         md:HintAssist.Hint="Tên đầy đủ" IsEnabled="{Binding Path=IsChecked, 
+                         ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" />
+
+                <TextBlock Width="110" Height="30" VerticalAlignment="Bottom" Margin="20,20,0,0"                        
+                        Text="Quan hệ với chủ nhà (*)" HorizontalAlignment="Left" FontWeight="Bold"/>
+
+                <TextBox x:Name="txtJobName" VerticalAlignment="Top" Height="40" Width="280" 
+                         Margin="0,-45,10,0" AcceptsReturn="True" TextWrapping="Wrap" 
+                         HorizontalAlignment="Right" VerticalContentAlignment="Center"                     
+                         VerticalScrollBarVisibility="Auto" md:HintAssist.Hint="Quan hệ với chủ nhà"                      
+                         IsEnabled="{Binding Path=IsChecked, 
+                         ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" />
+            </StackPanel>
         </Grid>
         
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.8*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="1">
                 <Button Width="110" x:Name="btnAddUser" Background="#453B48" BorderThickness="0"

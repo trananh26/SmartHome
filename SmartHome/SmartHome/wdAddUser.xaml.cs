@@ -37,9 +37,9 @@ namespace SmartHome
             FingerData User = new FingerData();
             User.UpdateTime = DateTime.Now;
             User.FingerID = NewFingerID;
-            User.UserName = "NVA";
-            User.FullName = "Nguyễn Văn A";
-            User.Job = "CN";
+            User.UserName = txtFullName.Text;
+            User.FullName = txtFullName.Text;
+            User.Job = txtJobName.Text;
             oBL.AddNewUser(User);
 
             MessageBox.Show("Thêm người dùng thành công");
