@@ -198,15 +198,36 @@ namespace SmartHome
             lblHum2.Text = _ss.Hum2;
             lblGas.Text = _ss.Gas;
 
-            if (double.Parse(_ss.Gas) >= 0.0 && !_isAlarm)
+            SetDeviceParam(_ss.Device);
+
+            if (double.Parse(_ss.Gas) >= 60.0)
             {
-                _isAlarm = true;
-                _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại nhà bếp");
+                if (!_isAlarm)
+                {
+                    _isAlarm = true;
+                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại nhà bếp");
+                }
             }
             else
                 _isAlarm = false;
-
             ///check nhiệt độ, độ ẩm tại phòng ngủ nếu có trẻ em
+        }
+
+        private void SetDeviceParam(string State)
+        {
+            if (State.Length >= 6)
+            {
+                Eqiupment _eq = new Eqiupment();
+                _eq.Lamp1 = int.Parse(State.Substring(0, 1));
+                _eq.Fan1 = int.Parse(State.Substring(1, 1));
+                _eq.Lamp3 = int.Parse(State.Substring(2, 1));
+                _eq.Fan3 = int.Parse(State.Substring(3, 1));
+                _eq.Lamp2 = int.Parse(State.Substring(4, 1));
+                _eq.Fan2 = int.Parse(State.Substring(5, 1));
+
+                oBL.SetEqiupmentState(_eq);
+
+            }
         }
 
         private void Timer_Tick(object sender, EventArgs e)

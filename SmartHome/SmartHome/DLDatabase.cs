@@ -107,6 +107,7 @@ namespace SmartHome
                         _ss.Temp2 = entry.Value.Temp2;
                         _ss.Hum2 = entry.Value.Hum2;
                         _ss.Gas = entry.Value.Gas;
+                        _ss.Device = entry.Value.Device;
 
                         lst.Add(_ss);
                     }
@@ -200,7 +201,7 @@ namespace SmartHome
 
             if (client != null)
             {
-                FirebaseResponse response = client.Set("Finger/" + user.UserName, user);
+                FirebaseResponse response = client.Set("Finger/" + user.UserName + user.FingerID.ToString(), user);
             }
         }
 

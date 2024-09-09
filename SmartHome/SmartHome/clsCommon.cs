@@ -85,6 +85,8 @@ namespace SmartHome
         [JsonProperty("gas")]    //Nồng độ khí gas
         public string Gas { get; set; }
 
+        [JsonProperty("device")] //Giá trị các thiết bị
+        public string Device { get; set; }
     }
 
 

@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartHome"
         mc:Ignorable="d" Loaded="Window_Loaded"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStartupLocation="CenterScreen"
         Title="wdAddUser" Height="500" Width="400">
     <Grid>
@@ -16,6 +19,11 @@
         <Grid Grid.Row="0">
             <TextBlock Text="  Thêm mới người dùng" FontSize="18" VerticalAlignment="Center" FontWeight="Bold"/>
         </Grid>
+        
+        <Grid Grid.Row="1">
+            
+        </Grid>
+        
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
