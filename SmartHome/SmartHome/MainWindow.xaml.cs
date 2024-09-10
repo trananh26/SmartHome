@@ -217,6 +217,7 @@ namespace SmartHome
         {
             if (State.Length >= 6)
             {
+                State = State.Substring(1);
                 Eqiupment _eq = new Eqiupment();
                 _eq.Lamp1 = int.Parse(State.Substring(0, 1));
                 _eq.Fan1 = int.Parse(State.Substring(1, 1));
