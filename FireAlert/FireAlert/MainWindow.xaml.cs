@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,10 @@ namespace FireAlert
     {
         BLDatabase oBL = new BLDatabase();
         clsAlert _alert = new clsAlert();
-        List<FingerData> lstUser = new List<FingerData>();
-        DispatcherTimer timerCloseDoor;
         private bool _isAlarm1 = false;
         private bool _isAlarm2 = false;
+        private bool _isFire1 = false;
+        private bool _isFire2 = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -36,14 +37,12 @@ namespace FireAlert
             timer.Tick += Timer_Tick;
             timer.Start();
 
-            DispatcherTimer timerCheckDoor = new DispatcherTimer();
-            timerCheckDoor.Interval = TimeSpan.FromSeconds(1);
-            timerCheckDoor.Tick += timerCheckDoor_Tick;
-            timerCheckDoor.Start();
+            DispatcherTimer timerCheckFire = new DispatcherTimer();
+            timerCheckFire.Interval = TimeSpan.FromSeconds(1);
+            timerCheckFire.Tick += TimerCheckFire_Tick;
+            timerCheckFire.Start();
 
-            timerCloseDoor = new DispatcherTimer();
-            timerCloseDoor.Interval = TimeSpan.FromSeconds(5);
-            timerCloseDoor.Tick += timerCloseDoor_Tick;
+
         }
 
 
@@ -54,6 +53,11 @@ namespace FireAlert
         {
             List<SensorData> lst = new List<SensorData>();
             lst = oBL.GetHistoryByWeek();
+
+            DataTable dt = new DataTable();
+            dt = ToDataTable(lst);
+            dtgGasHistory.ItemsSource = dt.DefaultView;
+
             double[] k = new double[7];
             double[] Gas1 = new double[7];
             double[] Gas2 = new double[7];
@@ -149,14 +153,8 @@ namespace FireAlert
         {
             SensorData _ss = new SensorData();
             _ss = oBL.GetCurentParameter();
-
-            lblTemp1.Text = _ss.Temp1;
-            lblHum1.Text = _ss.Hum1;
-            lblTemp2.Text = _ss.Temp2;
-            lblHum2.Text = _ss.Hum2;
-            lblGas.Text = _ss.Gas1;
-
-            SetDeviceParam(_ss.Device);
+            lblGas1.Text = _ss.Gas1;
+            lblGas2.Text = _ss.Gas2;
 
             //Cảnh báo gas tầng 2
             if (double.Parse(_ss.Gas1) >= 60.0)
@@ -164,7 +162,9 @@ namespace FireAlert
                 if (!_isAlarm1)
                 {
                     _isAlarm1 = true;
-                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại tầng 2");
+                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại tầng 2. Vui lòng tới kiểm tra!");
+
+                    SaveHistory("Có phát hiện nồng độ khí gas cao bất thường tại tầng 2. Vui lòng tới kiểm tra!");
                 }
             }
             else
@@ -176,7 +176,9 @@ namespace FireAlert
                 if (!_isAlarm2)
                 {
                     _isAlarm2 = true;
-                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại tầng 3");
+                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại tầng 3. Vui lòng tới kiểm tra!");
+
+                    SaveHistory("Có phát hiện nồng độ khí gas cao bất thường tại tầng 3. Vui lòng tới kiểm tra!");
                 }
             }
             else
@@ -187,20 +189,30 @@ namespace FireAlert
             //Cảnh báo cháy tầng 3
         }
 
-        private void SetDeviceParam(string State)
+        /// <summary>
+        /// Lưu lịch sử cảnh báo
+        /// </summary>
+        /// <param name="mess"></param>
+        private void SaveHistory(string mess)
         {
-            if (State.Length >= 6)
+            try
             {
-                State = State.Substring(1);
-                Eqiupment _eq = new Eqiupment();
-                _eq.Lamp1 = int.Parse(State.Substring(0, 1));
-                _eq.Fan1 = int.Parse(State.Substring(1, 1));
-                _eq.Lamp3 = int.Parse(State.Substring(2, 1));
-                _eq.Fan3 = int.Parse(State.Substring(3, 1));
-                _eq.Lamp2 = int.Parse(State.Substring(4, 1));
-                _eq.Fan2 = int.Parse(State.Substring(5, 1));
+                AlertHistory _alert = new AlertHistory();
+                _alert.Messager = mess;
+                _alert.UpdateTime = DateTime.Now.ToString("HH:mm:dd dd/MM/yyyy");
+                _alert.UpdateBy = "System";
+                oBL.SaveHistory(_alert);
 
-                oBL.SetEqiupmentState(_eq);
+                List<AlertHistory> lst = new List<AlertHistory>();
+                lst = oBL.GetAlertHistoryByWeek();
+
+                DataTable dt = new DataTable();
+                dt = ToAlertDataTable(lst);
+                dtgAlert.ItemsSource = dt.DefaultView;
+            }
+            catch (Exception)
+            {
+
 
             }
         }
@@ -220,58 +232,118 @@ namespace FireAlert
         }
 
         /// <summary>
-        /// Kiểm tra báo cháy
+        /// Kiểm tra xem có cháy không
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void timerCheckDoor_Tick(object sender, EventArgs e)
+        private void TimerCheckFire_Tick(object sender, EventArgs e)
         {
             try
             {
-                ///Kiểm tra mở cửa
-                FingerStatus _fingerStatus = new FingerStatus();
-                _fingerStatus = oBL.GetCurentFingerStatus();
-                if (!string.IsNullOrEmpty(_fingerStatus.Status) && _fingerStatus.Status.StartsWith("i"))
+                ///Kiểm tra cháy
+                FireSensorData _FireSensor = new FireSensorData();
+                _FireSensor = oBL.GetCurentFireSensorData();
+
+                ///Báo cháy tầng 2
+                if (_FireSensor != null)
                 {
-                    foreach (FingerData finger in lstUser)
+                    if (_FireSensor.Fire1 == "1")
                     {
-                        if (finger.FingerID.ToString() == _fingerStatus.Status.Substring(1))
+                        if (!_isFire1)
                         {
-                            //mở cửa
-                            Eqiupment _eq = new Eqiupment();
-                            _eq.Door = 1;
-                            oBL.SetEqiupmentState(_eq);
-                            timerCloseDoor.Start();
+                            _isFire1 = true;
+                            _alert.SendAlert("Có phát hiện cháy tại tầng 2. Vui lòng tới kiểm tra!");
 
-                            //đẩy status về 0
-                            _fingerStatus.Status = "0";
-                            oBL.SetFingerStatus(_fingerStatus);
-
-                            //lưu lịch sử
-                            oBL.SaveInOutHistory(finger);
+                            SaveHistory("Có phát hiện cháy tại tầng 2. Vui lòng tới kiểm tra!");
                         }
                     }
+                    else
+                        _isFire1 = false;
+
+                    ///Báo cháy tầng 2
+                    if (_FireSensor.Fire2 == "1")
+                    {
+                        if (!_isFire2)
+                        {
+                            _isFire2 = true;
+                            _alert.SendAlert("Có phát hiện cháy tại tầng 3. Vui lòng tới kiểm tra!");
+
+                            SaveHistory("Có phát hiện cháy tại tầng 3. Vui lòng tới kiểm tra!");
+                        }
+                    }
+                    else
+                        _isFire2 = false;
                 }
             }
-            catch (Exception ee)
+            catch (Exception ex)
             {
-                MessageBox.Show(ee.Message, "Error");
+
+            }
+        }
+
+
+        private DataTable ToDataTable<SensorData>(List<SensorData> lst)
+        {
+
+            DataTable dataTable = new DataTable(typeof(SensorData).Name);
+
+            // Lấy ra danh sách các thuộc tính của kiểu dữ liệu T
+            var props = typeof(SensorData).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            // Thêm các cột vào DataTable dựa trên các thuộc tính của đối tượng
+            foreach (var prop in props)
+            {
+                dataTable.Columns.Add(prop.Name, prop.PropertyType);
             }
 
+            // Thêm các hàng vào DataTable dựa trên giá trị của từng đối tượng
+            foreach (var item in lst)
+            {
+                var values = new object[props.Length];
+                for (int i = 0; i < props.Length; i++)
+                {
+                    // Lấy giá trị của từng thuộc tính của đối tượng
+                    values[i] = props[i].GetValue(item);
+                }
+                // Thêm hàng mới vào DataTable
+                dataTable.Rows.Add(values);
+            }
+
+            return dataTable;
+
         }
 
-        /// <summary>
-        /// đóng cửa
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void timerCloseDoor_Tick(object sender, EventArgs e)
+        private DataTable ToAlertDataTable<AlertHistory>(List<AlertHistory> lst)
         {
-            Eqiupment _eq = new Eqiupment();
-            _eq.Door = 0;
-            oBL.SetEqiupmentState(_eq);
-            timerCloseDoor.Stop();
+
+            DataTable dataTable = new DataTable(typeof(AlertHistory).Name);
+
+            // Lấy ra danh sách các thuộc tính của kiểu dữ liệu T
+            var props = typeof(AlertHistory).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+            // Thêm các cột vào DataTable dựa trên các thuộc tính của đối tượng
+            foreach (var prop in props)
+            {
+                dataTable.Columns.Add(prop.Name, prop.PropertyType);
+            }
+
+            // Thêm các hàng vào DataTable dựa trên giá trị của từng đối tượng
+            foreach (var item in lst)
+            {
+                var values = new object[props.Length];
+                for (int i = 0; i < props.Length; i++)
+                {
+                    // Lấy giá trị của từng thuộc tính của đối tượng
+                    values[i] = props[i].GetValue(item);
+                }
+                // Thêm hàng mới vào DataTable
+                dataTable.Rows.Add(values);
+            }
+
+            return dataTable;
+
         }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -279,7 +351,6 @@ namespace FireAlert
             {
                 GetCurrentParam();
                 GetParamForChart();
-                LoadFingerList();
             }
             catch (Exception ee)
             {
@@ -288,14 +359,6 @@ namespace FireAlert
             }
         }
 
-        /// <summary>
-        /// Load ra danh sách vân tay
-        /// </summary>
-        private void LoadFingerList()
-        {
-            lstUser.Clear();
-            lstUser = oBL.GetFingerList();
-        }
 
         private void btnDashboard_Click(object sender, RoutedEventArgs e)
         {
@@ -323,7 +386,6 @@ namespace FireAlert
         {
             wdUserManagement frm = new wdUserManagement();
             frm.ShowDialog();
-            LoadFingerList();
         }
     }
 }

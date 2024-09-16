@@ -43,18 +43,18 @@ namespace FireAlert
         /// <param name="e"></param>
         private void Timer_Tick(object sender, EventArgs e)
         {
-            FingerStatus _fingerStatus = new FingerStatus();
-            _fingerStatus = oBL.GetCurentFingerStatus();
-            if (!string.IsNullOrEmpty(_fingerStatus.Status) && _fingerStatus.Status.StartsWith("A"))
-            {
-                timer.Stop();
-                //gọi form nhập thông tin
-                wdAddUser frm = new wdAddUser();
-                frm.NewFingerID = _newID;
-                frm.ShowDialog();
+            //FingerStatus _fingerStatus = new FingerStatus();
+            //_fingerStatus = oBL.GetCurentFireSensorData();
+            //if (!string.IsNullOrEmpty(_fingerStatus.Status) && _fingerStatus.Status.StartsWith("A"))
+            //{
+            //    timer.Stop();
+            //    //gọi form nhập thông tin
+            //    wdAddUser frm = new wdAddUser();
+            //    frm.NewFingerID = _newID;
+            //    frm.ShowDialog();
 
-                LoadUserList();
-            }
+            //    LoadUserList();
+            //}
         }
 
         /// <summary>

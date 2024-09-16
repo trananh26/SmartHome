@@ -70,26 +70,48 @@ namespace FireAlert
 
         public string UpdateTime { get; set; }
 
-        [JsonProperty("temp1")]   //Nhiệt độ phòng 1
-        public string Temp1 { get; set; }
-
-        [JsonProperty("hum1")]    //Độ ẩm phòng 1
-        public string Hum1 { get; set; }
-
-        [JsonProperty("temp2")]   //Nhiệt độ phòng 2
-        public string Temp2 { get; set; }
-
-        [JsonProperty("hum2")]    //Độ ẩm phòng 2
-        public string Hum2 { get; set; }
-
         [JsonProperty("gas1")]    //Nồng độ khí gas
         public string Gas1 { get; set; }
 
         [JsonProperty("gas2")]    //Nồng độ khí gas
         public string Gas2 { get; set; }
 
-        [JsonProperty("device")] //Giá trị các thiết bị
-        public string Device { get; set; }
+    }
+
+    /// <summary>
+    /// dữ liệu báo cháy
+    /// </summary>
+    public class FireSensorData
+    {
+        [JsonProperty("epoch_time")]    //thời  gian cập nhật
+        public long ID { get; set; }
+
+        public string UpdateTime { get; set; }
+
+      
+        [JsonProperty("fire1")]    //Nồng độ khí gas
+        public string Fire1 { get; set; }
+
+        [JsonProperty("fire2")]    //Nồng độ khí gas
+        public string Fire2 { get; set; }
+
+        
+    }
+
+    /// <summary>
+    /// lịch sử cảnh báo
+    /// </summary>
+    public class AlertHistory
+    {
+        [JsonProperty("UpdateTime")]    //thời  gian cập nhậ
+        public string UpdateTime { get; set; }
+
+        [JsonProperty("Messager")]    //Nồng độ khí gas
+        public string Messager { get; set; }
+
+        [JsonProperty("UpdateBy")]    //Nồng độ khí gas
+        public string UpdateBy { get; set; }
+
     }
 
 

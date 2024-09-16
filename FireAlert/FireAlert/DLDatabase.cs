@@ -8,6 +8,8 @@ using FireSharp.Config;
 using FireSharp.Response;
 using Newtonsoft.Json;
 using RestSharp.Extensions;
+using static iTextSharp.text.pdf.events.IndexEvents;
+using System.Reflection;
 
 namespace FireAlert
 {
@@ -22,6 +24,232 @@ namespace FireAlert
             BasePath = "https://smart-house-haui-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
 
+
+
+        /// <summary>
+        /// Lấy lên lịch sử  quản lý môi trường
+        /// </summary>
+        /// <returns></returns>
+        public List<SensorData> GetHistory()
+        {
+            List<SensorData> lst = new List<SensorData>();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/Data");
+                Dictionary<string, SensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, SensorData>>(Result.Body.ToString());
+
+                if (sensorDataDict != null)
+                {
+                    foreach (var entry in sensorDataDict)
+                    {
+                        DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(entry.Value.ID).UtcDateTime;
+
+                        SensorData _ss = new SensorData();
+                        _ss.ID = entry.Value.ID;
+                        _ss.UpdateTime = dateTime.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss");
+
+                        _ss.Gas1 = entry.Value.Gas1;
+                        _ss.Gas2 = entry.Value.Gas2;
+
+                        lst.Add(_ss);
+                    }
+                    lst = lst.OrderByDescending(s => s.ID).ToList();
+                }
+            }
+
+            return lst;
+        }
+
+        /// <summary>
+        /// Lấy ra lịch sử 1  tuần gần nhất
+        /// </summary>
+        /// <returns></returns>
+        public List<SensorData> GetHistoryByWeek()
+        {
+            List<SensorData> lst = new List<SensorData>();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/Data");
+                Dictionary<string, SensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, SensorData>>(Result.Body.ToString());
+
+                if (sensorDataDict != null)
+                {
+                    foreach (var entry in sensorDataDict)
+                    {
+
+                        DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(entry.Value.ID).UtcDateTime;
+                        ///Lấy lịch sử 7 giờ gần nhất trong ngày
+                        if (dateTime.Date <= DateTime.Now.Date && dateTime.Date >= DateTime.Now.AddDays(-7))
+                        {
+                            SensorData _ss = new SensorData();
+                            _ss.ID = entry.Value.ID;
+                            _ss.UpdateTime = dateTime.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss");
+                            _ss.Gas1 = entry.Value.Gas1;
+                            _ss.Gas2 = entry.Value.Gas2;
+
+                            lst.Add(_ss);
+
+                        }
+                    }
+                }
+            }
+            return lst;
+        }
+
+        /// <summary>
+        /// Lấy trạng thái hiện tại cảu vân tay
+        /// </summary>
+        /// <returns></returns>
+        public FireSensorData GetCurentFireSensorData()
+        {
+            FireSensorData _status = new FireSensorData();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/FireStatus");
+                Dictionary<string, FireSensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, FireSensorData>>(Result.Body.ToString());
+
+                if (sensorDataDict != null)
+                {
+                    foreach (var key in sensorDataDict)
+                    {
+                        DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(key.Value.ID).UtcDateTime;
+
+                        _status.ID = key.Value.ID;
+                        _status.UpdateTime = dateTime.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss");
+                        _status.Fire1 = key.Value.Fire1;
+                        _status.Fire2 = key.Value.Fire2;
+                    }
+                }
+            }
+            return _status;
+        }
+
+        /// <summary>
+        /// Lưu lịch sử alert
+        /// </summary>
+        /// <param name="alert"></param>
+        public async void SaveHistory(AlertHistory alert)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = await client.UpdateTaskAsync("/AlertHistory/" + DateTime.Now.ToString("ddMMyyyy"), alert);
+            }
+        }
+
+        /// <summary>
+        /// Lấy ra lịch sử 1  tuần gần nhất
+        /// </summary>
+        /// <returns></returns>
+        public List<AlertHistory> GetHistoryAlertByWeek()
+        {
+            List<AlertHistory> lst = new List<AlertHistory>();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/AlertHistory");
+                Dictionary<string, AlertHistory> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, AlertHistory>>(Result.Body.ToString());
+
+                if (sensorDataDict != null)
+                {
+                    foreach (var entry in sensorDataDict)
+                    {
+
+                        DateTime dateTime = DateTime.Parse(entry.Value.UpdateTime);
+                        ///Lấy lịch sử 7 giờ gần nhất trong ngày
+                        if (dateTime.Date <= DateTime.Now.Date && dateTime.Date >= DateTime.Now.AddDays(-7))
+                        {
+                            AlertHistory _ss = new AlertHistory();
+                            _ss.UpdateTime = dateTime.ToString();
+                            _ss.Messager = entry.Value.Messager;
+                            _ss.UpdateBy = entry.Value.UpdateBy;
+
+                            lst.Add(_ss);
+
+                        }
+                    }
+                }
+            }
+            return lst;
+        }
+        ///-----------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Lấy danh sách vân tay
+        /// </summary>
+        /// <returns></returns>
+        public List<FingerData> GetFingerList()
+        {
+            List<FingerData> lst = new List<FingerData>();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/Finger");
+                Dictionary<string, FingerData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, FingerData>>(Result.Body.ToString());
+
+                if (sensorDataDict != null)
+                {
+                    foreach (var entry in sensorDataDict)
+                    {
+                        FingerData _ss = new FingerData();
+                        _ss.UpdateTime = entry.Value.UpdateTime;
+                        _ss.FingerID = entry.Value.FingerID;
+                        _ss.UserName = entry.Value.UserName;
+                        _ss.FullName = entry.Value.FullName;
+                        _ss.Job = entry.Value.Job;
+
+                        lst.Add(_ss);
+                    }
+                }
+            }
+            return lst;
+        }
+
+        /// <summary>
+        /// Thêm người dùng
+        /// </summary>
+        /// <param name="user"></param>
+        public async void AddNewUser(FingerData user)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = client.Set("Finger/" + user.UserName + user.FingerID.ToString(), user);
+            }
+        }
+
+        /// <summary>
+        /// Set trạng thái vân tay
+        /// </summary>
+        /// <param name="Status"></param>
+        public async void SetFingerStatus(FingerStatus Status)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = await client.UpdateTaskAsync("/FingerStatus", Status);
+            }
+        }
+
+        public async void SaveInOutHistory(FingerData finger)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = await client.UpdateTaskAsync("/InOutHistory", finger);
+            }
+        }
         /// <summary>
         /// Kéo trạng thái thiết bị
         /// </summary>
@@ -79,183 +307,5 @@ namespace FireAlert
             }
         }
 
-        /// <summary>
-        /// Lấy lên lịch sử  quản lý môi trường
-        /// </summary>
-        /// <returns></returns>
-        public List<SensorData> GetHistory()
-        {
-            List<SensorData> lst = new List<SensorData>();
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                var Result = client.Get("/Data");
-                Dictionary<string, SensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, SensorData>>(Result.Body.ToString());
-
-                if (sensorDataDict != null)
-                {
-                    foreach (var entry in sensorDataDict)
-                    {
-                        DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(entry.Value.ID).UtcDateTime;
-
-                        SensorData _ss = new SensorData();
-                        _ss.ID = entry.Value.ID;
-                        _ss.UpdateTime = dateTime.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss");
-                        _ss.Temp1 = entry.Value.Temp1;
-                        _ss.Hum1 = entry.Value.Hum1;
-                        _ss.Temp2 = entry.Value.Temp2;
-                        _ss.Hum2 = entry.Value.Hum2;
-                        _ss.Device = entry.Value.Device;
-
-
-                        _ss.Gas1 = entry.Value.Gas1;
-                        _ss.Gas2 = entry.Value.Gas2;
-
-                        lst.Add(_ss);
-                    }
-                    lst = lst.OrderByDescending(s => s.ID).ToList();
-                }
-            }
-
-            return lst;
-        }
-
-        /// <summary>
-        /// Lấy ra lịch sử 1  tuần gần nhất
-        /// </summary>
-        /// <returns></returns>
-        public List<SensorData> GetHistoryByWeek()
-        {
-            List<SensorData> lst = new List<SensorData>();
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                var Result = client.Get("/Data");
-                Dictionary<string, SensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, SensorData>>(Result.Body.ToString());
-
-                if (sensorDataDict != null)
-                {
-                    foreach (var entry in sensorDataDict)
-                    {
-
-                        DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(entry.Value.ID).UtcDateTime;
-                        ///Lấy lịch sử 7 giờ gần nhất trong ngày
-                        if (dateTime.Date <= DateTime.Now.Date && dateTime.Date >= DateTime.Now.AddDays(-7))
-                        {
-                            SensorData _ss = new SensorData();
-                            _ss.ID = entry.Value.ID;
-                            _ss.UpdateTime = dateTime.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss");
-                            _ss.Temp1 = entry.Value.Temp1;
-                            _ss.Hum1 = entry.Value.Hum1;
-                            _ss.Temp2 = entry.Value.Temp2;
-                            _ss.Hum2 = entry.Value.Hum2;
-                            _ss.Gas1 = entry.Value.Gas1;
-                            _ss.Gas2 = entry.Value.Gas2;
-
-                            lst.Add(_ss);
-
-                        }
-                    }
-                }
-            }
-            return lst;
-        }
-
-        /// <summary>
-        /// Lấy danh sách vân tay
-        /// </summary>
-        /// <returns></returns>
-        public List<FingerData> GetFingerList()
-        {
-            List<FingerData> lst = new List<FingerData>();
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                var Result = client.Get("/Finger");
-                Dictionary<string, FingerData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, FingerData>>(Result.Body.ToString());
-
-                if (sensorDataDict != null)
-                {
-                    foreach (var entry in sensorDataDict)
-                    {
-                        FingerData _ss = new FingerData();
-                        _ss.UpdateTime = entry.Value.UpdateTime;
-                        _ss.FingerID = entry.Value.FingerID;
-                        _ss.UserName = entry.Value.UserName;
-                        _ss.FullName = entry.Value.FullName;
-                        _ss.Job = entry.Value.Job;
-
-                        lst.Add(_ss);
-                    }
-                }
-            }
-            return lst;
-        }
-
-        /// <summary>
-        /// Thêm người dùng
-        /// </summary>
-        /// <param name="user"></param>
-        public async void AddNewUser(FingerData user)
-        {
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                FirebaseResponse response = client.Set("Finger/" + user.UserName + user.FingerID.ToString(), user);
-            }
-        }
-
-        /// <summary>
-        /// Lấy trạng thái hiện tại cảu vân tay
-        /// </summary>
-        /// <returns></returns>
-        public FingerStatus GetCurentFingerStatus()
-        {
-            FingerStatus _status = new FingerStatus();
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                var Result = client.Get("/FingerStatus");
-                Dictionary<string, string> State = JsonConvert.DeserializeObject<Dictionary<string, string>>(Result.Body.ToString());
-                if (State != null)
-                {
-                    foreach (var key in State)
-                    {
-                        if (key.Key == "Status")
-                            _status.Status = key.Value;
-                    }
-                }
-            }
-            return _status;
-        }
-
-        /// <summary>
-        /// Set trạng thái vân tay
-        /// </summary>
-        /// <param name="Status"></param>
-        public async void SetFingerStatus(FingerStatus Status)
-        {
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                FirebaseResponse response = await client.UpdateTaskAsync("/FingerStatus", Status);
-            }
-        }
-
-        public async void SaveInOutHistory(FingerData finger)
-        {
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                FirebaseResponse response = await client.UpdateTaskAsync("/InOutHistory", finger);
-            }
-        }
     }
 }

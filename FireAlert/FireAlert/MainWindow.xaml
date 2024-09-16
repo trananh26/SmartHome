@@ -40,9 +40,9 @@
                 <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
             </Grid>
             <Grid Grid.Row="3" Background="#2E4053">
-                
+
             </Grid>
-                <!--<Grid Grid.Row="3" Background="#2E4053">
+            <!--<Grid Grid.Row="3" Background="#2E4053">
                 <Button Height="60"  Background="#2E4053" BorderBrush="#2E4053"
                  x:Name="btnHistory" Click="btnHistory_Click">
                 </Button>
@@ -87,7 +87,7 @@
             </Grid>
 
             <Grid Grid.Row="6" Background="#2E4053"></Grid>
-            
+
             <Grid Grid.Row="7" Background="#2E4053">
                 <Image Source=".\Resources\Logo user.png"
                 Width="60" HorizontalAlignment="Left"/>
@@ -144,13 +144,13 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
 
-                    <md:Card Height="110" Background="#CFD8CD" VerticalAlignment="Top">
+                    <md:Card Height="120" Background="#CFD8CD" VerticalAlignment="Top">
                         <StackPanel>
-                            <md:PackIcon Kind="Leaf" Height="45" Width="35" 
+                            <md:PackIcon Kind="Leaf" Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
                             <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblGas1"/>
-                            <TextBlock Text="Nồng độ khí gas" VerticalAlignment="Bottom" FontSize="18" 
-                                     Margin="15,5,0,0" FontFamily="Times New Roman" />
+                            <TextBlock Text="Nồng độ khí gas tầng 2" VerticalAlignment="Bottom" FontSize="18" 
+                                     Margin="15,10,0,0" FontFamily="Times New Roman" />
 
 
                         </StackPanel>
@@ -158,13 +158,13 @@
 
                 </Grid>
                 <Grid Grid.Column="3" >
-                    <md:Card Height="110" Background="#D1C6B8" VerticalAlignment="Top">
+                    <md:Card Height="120" Background="#D1C6B8" VerticalAlignment="Top">
                         <StackPanel>
-                            <md:PackIcon Kind="SatelliteVariant"  Height="45" Width="35" 
+                            <md:PackIcon Kind="SatelliteVariant"  Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
                             <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblGas2"/>
-                            <TextBlock Text="Nồng độ khí gas" VerticalAlignment="Bottom" FontSize="18" 
-                                     Margin="15,5,0,0" FontFamily="Times New Roman" />
+                            <TextBlock Text="Nồng độ khí gas tầng 3" VerticalAlignment="Bottom" FontSize="18" 
+                                     Margin="15,10,0,0" FontFamily="Times New Roman" />
 
 
                         </StackPanel>
@@ -194,7 +194,7 @@
                         </StackPanel>
                     </md:Card>-->
                 </Grid>
-                
+
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -211,7 +211,7 @@
                     <v:TemplatureLineChart x:Name="uc_Gas2Report"/>
                 </Grid>
             </Grid>
-           
+
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.05*"/>
@@ -238,10 +238,10 @@
                     <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <DataGrid/>
+                    <DataGrid x:Name="dtgGasHistory" IsReadOnly="True"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <DataGrid/>
+                    <DataGrid x:Name="dtgAlert" IsReadOnly="True"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="5">

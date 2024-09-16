@@ -59,9 +59,9 @@ namespace FireAlert
             oDL.AddNewUser(user);
         }
 
-        public FingerStatus GetCurentFingerStatus()
+        public FireSensorData GetCurentFireSensorData()
         {
-            return oDL.GetCurentFingerStatus();
+            return oDL.GetCurentFireSensorData();
         }
 
         public void SetFingerStatus(FingerStatus Status)
@@ -72,6 +72,18 @@ namespace FireAlert
         public void SaveInOutHistory(FingerData finger)
         {
             oDL.SaveInOutHistory(finger);
+        }
+
+        public void SaveHistory(AlertHistory alert)
+        {
+            oDL.SaveHistory(alert);
+        }
+
+        public List<AlertHistory> GetAlertHistoryByWeek()
+        {
+            List<AlertHistory> lst = new List<AlertHistory>();
+            lst = oDL.GetHistoryAlertByWeek();
+            return lst;
         }
     }
 }
