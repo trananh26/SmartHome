@@ -26,7 +26,8 @@ namespace FireAlert
         clsAlert _alert = new clsAlert();
         List<FingerData> lstUser = new List<FingerData>();
         DispatcherTimer timerCloseDoor;
-        private bool _isAlarm = false;
+        private bool _isAlarm1 = false;
+        private bool _isAlarm2 = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -54,10 +55,7 @@ namespace FireAlert
             List<SensorData> lst = new List<SensorData>();
             lst = oBL.GetHistoryByWeek();
             double[] k = new double[7];
-            double[] Temp1 = new double[7];
-            double[] Hum1 = new double[7];
-            double[] Temp2 = new double[7];
-            double[] Hum2 = new double[7];
+            double[] Gas1 = new double[7];
             double[] Gas2 = new double[7];
 
             foreach (SensorData sensor in lst)
@@ -65,65 +63,44 @@ namespace FireAlert
                 // tính từng thông số theo ngày
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date)
                 {
-                    Temp1[0] += double.Parse(sensor.Temp1);
-                    Hum1[0] += double.Parse(sensor.Hum1);
-                    Temp2[0] += double.Parse(sensor.Temp2);
-                    Hum2[0] += double.Parse(sensor.Hum2);
-                    Gas2[0] += double.Parse(sensor.Gas);
+                    Gas1[0] += double.Parse(sensor.Gas1);
+                    Gas2[0] += double.Parse(sensor.Gas2);
                     k[0]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-1))
                 {
-                    Temp1[1] += double.Parse(sensor.Temp1);
-                    Hum1[1] += double.Parse(sensor.Hum1);
-                    Temp2[1] += double.Parse(sensor.Temp2);
-                    Hum2[1] += double.Parse(sensor.Hum2);
-                    Gas2[1] += double.Parse(sensor.Gas);
+                    Gas1[1] += double.Parse(sensor.Gas1);
+                    Gas2[1] += double.Parse(sensor.Gas2);
                     k[1]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-2))
                 {
-                    Temp1[2] += double.Parse(sensor.Temp1);
-                    Hum1[2] += double.Parse(sensor.Hum1);
-                    Temp2[2] += double.Parse(sensor.Temp2);
-                    Hum2[2] += double.Parse(sensor.Hum2);
-                    Gas2[2] += double.Parse(sensor.Gas);
+                    Gas1[2] += double.Parse(sensor.Gas1);
+                    Gas2[2] += double.Parse(sensor.Gas2);
                     k[2]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-3))
                 {
-                    Temp1[3] += double.Parse(sensor.Temp1);
-                    Hum1[3] += double.Parse(sensor.Hum1);
-                    Temp2[3] += double.Parse(sensor.Temp2);
-                    Hum2[3] += double.Parse(sensor.Hum2);
-                    Gas2[3] += double.Parse(sensor.Gas);
+                    Gas1[3] += double.Parse(sensor.Gas1);
+                    Gas2[3] += double.Parse(sensor.Gas2);
                     k[3]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-4))
                 {
-                    Temp1[4] += double.Parse(sensor.Temp1);
-                    Hum1[4] += double.Parse(sensor.Hum1);
-                    Temp2[4] += double.Parse(sensor.Temp2);
-                    Hum2[4] += double.Parse(sensor.Hum2);
-                    Gas2[4] += double.Parse(sensor.Gas);
+                    Gas1[4] += double.Parse(sensor.Gas1);
+                    Gas2[4] += double.Parse(sensor.Gas2);
                     k[4]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-5))
                 {
-                    Temp1[5] += double.Parse(sensor.Temp1);
-                    Hum1[5] += double.Parse(sensor.Hum1);
-                    Temp2[5] += double.Parse(sensor.Temp2);
-                    Hum2[5] += double.Parse(sensor.Hum2);
-                    Gas2[5] += double.Parse(sensor.Gas);
+                    Gas1[5] += double.Parse(sensor.Gas1);
+                    Gas2[5] += double.Parse(sensor.Gas2);
                     k[5]++;
                 }
                 if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-6))
                 {
-                    Temp1[6] += double.Parse(sensor.Temp1);
-                    Hum1[6] += double.Parse(sensor.Hum1);
-                    Temp2[6] += double.Parse(sensor.Temp2);
-                    Hum2[6] += double.Parse(sensor.Hum2);
-                    Gas2[6] += double.Parse(sensor.Gas);
+                    Gas1[6] += double.Parse(sensor.Gas1);
+                    Gas2[6] += double.Parse(sensor.Gas2);
                     k[6]++;
                 }
             }
@@ -138,25 +115,25 @@ namespace FireAlert
 
             for (int i = 0; i < 7; i++)
             {
-                Temp1[i] = Math.Round(Temp1[i] / k[i], 3) >= 0 ? Math.Round(Temp1[i] / k[i], 3) : 0;
-                Hum1[i] = Math.Round(Hum1[i] / k[i], 3) >= 0 ? Math.Round(Hum1[i] / k[i], 3) : 0;
-                Temp2[i] = Math.Round(Temp2[i] / k[i], 3) >= 0 ? Math.Round(Temp2[i] / k[i], 3) : 0;
-                Hum2[i] = Math.Round(Hum2[i] / k[i], 3) >= 0 ? Math.Round(Hum2[i] / k[i], 3) : 0;
+                Gas1[i] = Math.Round(Gas1[i] / k[i], 3) >= 0 ? Math.Round(Gas1[i] / k[i], 3) : 0;
                 Gas2[i] = Math.Round(Gas2[i] / k[i], 3) >= 0 ? Math.Round(Gas2[i] / k[i], 3) : 0;
             }
 
             //gán giá trị theo từng mốc lên biểu đồ
-            uc_Temp1Report.srValue.Values = new ChartValues<double> { Temp1[6], Temp1[5], Temp1[4], Temp1[3], Temp1[2], Temp1[1], Temp1[0] };
-            uc_Hum1Report.srValue.Values = new ChartValues<double> { Hum1[6], Hum1[5], Hum1[4], Hum1[3], Hum1[2], Hum1[1], Hum1[0] };
-            uc_Temp2Report.srValue.Values = new ChartValues<double> { Temp2[6], Temp2[5], Temp2[4], Temp2[3], Temp2[2], Temp2[1], Temp2[0] };
+            uc_Gas1Report.srValue.Values = new ChartValues<double> { Gas1[6], Gas1[5], Gas1[4], Gas1[3], Gas1[2], Gas1[1], Gas1[0] };
             uc_Gas2Report.srValue.Values = new ChartValues<double> { Gas2[6], Gas2[5], Gas2[4], Gas2[3], Gas2[2], Gas2[1], Gas2[0] };
 
             //Gán label cho biểu đồ
-            uc_Temp1Report.srValue.Title = "Nhiệt độ trung bình phòng ngủ";
-            uc_Hum1Report.srValue.Title = "Độ ẩm trung bình phòng ngủ";
+            uc_Gas1Report.srValue.Title = "Nồng độ khí gas trung bình phòng bếp";
             uc_Gas2Report.srValue.Title = "Nồng độ khí gas trung bình phòng bếp";
-            uc_Temp2Report.srValue.Title = "Nhiệt độ trung bình phòng bếp";
 
+
+            uc_Gas1Report.Label.Labels = new[] {
+                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
+                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
+                           DateTime.Now.ToString("dd/MM/yy")
+                   };
 
             uc_Gas2Report.Label.Labels = new[] {
                            DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
@@ -165,26 +142,7 @@ namespace FireAlert
                            DateTime.Now.ToString("dd/MM/yy")
                    };
 
-            uc_Temp1Report.Label.Labels = new[] {
-                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
-                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
-                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
-                           DateTime.Now.ToString("dd/MM/yy")
-                   };
 
-            uc_Hum1Report.Label.Labels = new[] {
-                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
-                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
-                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
-                           DateTime.Now.ToString("dd/MM/yy")
-                   };
-
-            uc_Temp2Report.Label.Labels = new[] {
-                           DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
-                           DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
-                           DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
-                           DateTime.Now.ToString("dd/MM/yy")
-                   };
         }
 
         private void GetCurrentParam()
@@ -196,21 +154,37 @@ namespace FireAlert
             lblHum1.Text = _ss.Hum1;
             lblTemp2.Text = _ss.Temp2;
             lblHum2.Text = _ss.Hum2;
-            lblGas.Text = _ss.Gas;
+            lblGas.Text = _ss.Gas1;
 
             SetDeviceParam(_ss.Device);
 
-            if (double.Parse(_ss.Gas) >= 60.0)
+            //Cảnh báo gas tầng 2
+            if (double.Parse(_ss.Gas1) >= 60.0)
             {
-                if (!_isAlarm)
+                if (!_isAlarm1)
                 {
-                    _isAlarm = true;
-                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại nhà bếp");
+                    _isAlarm1 = true;
+                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại tầng 2");
                 }
             }
             else
-                _isAlarm = false;
-            ///check nhiệt độ, độ ẩm tại phòng ngủ nếu có trẻ em
+                _isAlarm1 = false;
+
+            //Cảnh báo gas tầng 3
+            if (double.Parse(_ss.Gas2) >= 60.0)
+            {
+                if (!_isAlarm2)
+                {
+                    _isAlarm2 = true;
+                    _alert.SendAlert("Có phát hiện nồng độ khí gas cao bất thường tại tầng 3");
+                }
+            }
+            else
+                _isAlarm2 = false;
+
+            //Cảnh báo cháy tầng 2
+
+            //Cảnh báo cháy tầng 3
         }
 
         private void SetDeviceParam(string State)
@@ -245,6 +219,11 @@ namespace FireAlert
             }
         }
 
+        /// <summary>
+        /// Kiểm tra báo cháy
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timerCheckDoor_Tick(object sender, EventArgs e)
         {
             try

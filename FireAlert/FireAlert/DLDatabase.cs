@@ -106,8 +106,11 @@ namespace FireAlert
                         _ss.Hum1 = entry.Value.Hum1;
                         _ss.Temp2 = entry.Value.Temp2;
                         _ss.Hum2 = entry.Value.Hum2;
-                        _ss.Gas = entry.Value.Gas;
                         _ss.Device = entry.Value.Device;
+
+
+                        _ss.Gas1 = entry.Value.Gas1;
+                        _ss.Gas2 = entry.Value.Gas2;
 
                         lst.Add(_ss);
                     }
@@ -148,7 +151,8 @@ namespace FireAlert
                             _ss.Hum1 = entry.Value.Hum1;
                             _ss.Temp2 = entry.Value.Temp2;
                             _ss.Hum2 = entry.Value.Hum2;
-                            _ss.Gas = entry.Value.Gas;
+                            _ss.Gas1 = entry.Value.Gas1;
+                            _ss.Gas2 = entry.Value.Gas2;
 
                             lst.Add(_ss);
 

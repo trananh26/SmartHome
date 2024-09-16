@@ -82,8 +82,11 @@ namespace FireAlert
         [JsonProperty("hum2")]    //Độ ẩm phòng 2
         public string Hum2 { get; set; }
 
-        [JsonProperty("gas")]    //Nồng độ khí gas
-        public string Gas { get; set; }
+        [JsonProperty("gas1")]    //Nồng độ khí gas
+        public string Gas1 { get; set; }
+
+        [JsonProperty("gas2")]    //Nồng độ khí gas
+        public string Gas2 { get; set; }
 
         [JsonProperty("device")] //Giá trị các thiết bị
         public string Device { get; set; }
