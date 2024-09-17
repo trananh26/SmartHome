@@ -22,6 +22,7 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="24*"/>
                 <RowDefinition Height="1.5*"/>
             </Grid.RowDefinitions>
@@ -39,43 +40,21 @@
                     MouseDown="btnDashboard_Click"/>
                 <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
             </Grid>
-            <Grid Grid.Row="3" Background="#2E4053">
-
-            </Grid>
-            <!--<Grid Grid.Row="3" Background="#2E4053">
-                <Button Height="60"  Background="#2E4053" BorderBrush="#2E4053"
-                 x:Name="btnHistory" Click="btnHistory_Click">
-                </Button>
-                <md:PackIcon Kind="ArrangeSendBackward" Width="35" Height="35" VerticalAlignment="Center" 
-                                  Margin="30,0,0,0" MouseDown="btnHistory_Click" Background="#2E4053"/>
-                <TextBlock Text="Lịch sử" FontSize="16" Height="20" Margin="90,0,0,0" 
-                        MouseDown="btnHistory_Click" Foreground="White"/>
-                <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
-            </Grid>
-
             <Grid Grid.Row="2" Background="#2E4053">
                 <Button Height="60"  Background="#2E4053" BorderBrush="#2E4053"
-                 x:Name="btnControl" Click="btnControl_Click">
+  x:Name="btnControl" Click="btnControl_Click">
                 </Button>
                 <md:PackIcon Kind="Apps" Width="35" Height="35" VerticalAlignment="Center" Background="#2E4053"
-                                  Margin="30,0,0,0" MouseDown="btnControl_Click"/>
+                   Margin="30,0,0,0" MouseDown="btnControl_Click"/>
                 <TextBlock Text="Điều khiển" FontSize="16" Height="20" Foreground="White"
-                    Margin="90,0,0,0" MouseDown="btnControl_Click"/>
+     Margin="90,0,0,0" MouseDown="btnControl_Click"/>
                 <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
             </Grid>
-
             <Grid Grid.Row="4" Background="#2E4053">
-                <Button Height="60" x:Name="btnSetting" Click="btnSetting_Click"  VerticalAlignment="Top"
-                            Background="#2E4053" BorderBrush="#2E4053" >
-                </Button>
-                <md:PackIcon Kind="User" Width="35" Height="35" VerticalAlignment="Center" Background="#2E4053"
-                  Margin="30,0,0,0" MouseDown="btnSetting_Click"/>
-                <TextBlock Text="Người dùng" FontSize="16" Height="20" Margin="90,0,0,0" 
-                            Foreground="White" MouseDown="btnSetting_Click"/>
-                <Rectangle StrokeThickness="1" Width="1" HorizontalAlignment="Right" Fill="Gray"></Rectangle>
-            </Grid>-->
 
-            <Grid Grid.Row="2" Background="#2E4053">
+            </Grid>
+           
+            <Grid Grid.Row="3" Background="#2E4053">
                 <Button Height="60" x:Name="btnExit" Click="btnExit_Click" VerticalAlignment="Top"
                  Background="#2E4053" BorderBrush="#2E4053" >
                 </Button>
@@ -253,11 +232,11 @@
                     <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <TextBlock Text="Lịch sử khí gas tầng 2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Lịch sử khí gas trong tuần" VerticalAlignment="Center" HorizontalAlignment="Center"
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <TextBlock Text="Lịch sử khí gas tầng 3" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Lịch sử cảnh báo" VerticalAlignment="Center" HorizontalAlignment="Center"
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
             </Grid>

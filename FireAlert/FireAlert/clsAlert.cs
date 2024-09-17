@@ -45,7 +45,7 @@ namespace FireAlert
         {
             // Thông tin Twilio Account SID và Auth Token
             const string accountSid = "ACf776adac527a68541586aba65fad0f87";
-            const string authToken = "422a350eea53354c62073fc590e087b6";
+            const string authToken = "c07b9e54e565495deb40a1af88ba07c7";
 
             // Khởi tạo Twilio Client
             TwilioClient.Init(accountSid, authToken);

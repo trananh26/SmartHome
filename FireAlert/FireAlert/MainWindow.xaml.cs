@@ -33,7 +33,7 @@ namespace FireAlert
         {
             InitializeComponent();
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(30);
+            timer.Interval = TimeSpan.FromSeconds(10);
             timer.Tick += Timer_Tick;
             timer.Start();
 
@@ -41,7 +41,6 @@ namespace FireAlert
             timerCheckFire.Interval = TimeSpan.FromSeconds(1);
             timerCheckFire.Tick += TimerCheckFire_Tick;
             timerCheckFire.Start();
-
 
         }
 
@@ -51,102 +50,114 @@ namespace FireAlert
         /// </summary>
         private void GetParamForChart()
         {
-            List<SensorData> lst = new List<SensorData>();
-            lst = oBL.GetHistoryByWeek();
-
-            DataTable dt = new DataTable();
-            dt = ToDataTable(lst);
-            dtgGasHistory.ItemsSource = dt.DefaultView;
-
-            double[] k = new double[7];
-            double[] Gas1 = new double[7];
-            double[] Gas2 = new double[7];
-
-            foreach (SensorData sensor in lst)
+            try
             {
-                // tính từng thông số theo ngày
-                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date)
-                {
-                    Gas1[0] += double.Parse(sensor.Gas1);
-                    Gas2[0] += double.Parse(sensor.Gas2);
-                    k[0]++;
-                }
-                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-1))
-                {
-                    Gas1[1] += double.Parse(sensor.Gas1);
-                    Gas2[1] += double.Parse(sensor.Gas2);
-                    k[1]++;
-                }
-                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-2))
-                {
-                    Gas1[2] += double.Parse(sensor.Gas1);
-                    Gas2[2] += double.Parse(sensor.Gas2);
-                    k[2]++;
-                }
-                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-3))
-                {
-                    Gas1[3] += double.Parse(sensor.Gas1);
-                    Gas2[3] += double.Parse(sensor.Gas2);
-                    k[3]++;
-                }
-                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-4))
-                {
-                    Gas1[4] += double.Parse(sensor.Gas1);
-                    Gas2[4] += double.Parse(sensor.Gas2);
-                    k[4]++;
-                }
-                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-5))
-                {
-                    Gas1[5] += double.Parse(sensor.Gas1);
-                    Gas2[5] += double.Parse(sensor.Gas2);
-                    k[5]++;
-                }
-                if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-6))
-                {
-                    Gas1[6] += double.Parse(sensor.Gas1);
-                    Gas2[6] += double.Parse(sensor.Gas2);
-                    k[6]++;
-                }
-            }
+                List<SensorData> lst = new List<SensorData>();
+                lst = oBL.GetHistoryByWeek();
 
-            k[0] = k[0] > 0 ? k[0] : 1;
-            k[1] = k[1] > 0 ? k[1] : 1;
-            k[2] = k[2] > 0 ? k[2] : 1;
-            k[3] = k[3] > 0 ? k[3] : 1;
-            k[4] = k[4] > 0 ? k[4] : 1;
-            k[5] = k[5] > 0 ? k[5] : 1;
-            k[6] = k[6] > 0 ? k[6] : 1;
+                DataTable dt = new DataTable();
+                dt = ToDataTable(lst);
+                dtgGasHistory.ItemsSource = dt.DefaultView;
 
-            for (int i = 0; i < 7; i++)
-            {
-                Gas1[i] = Math.Round(Gas1[i] / k[i], 3) >= 0 ? Math.Round(Gas1[i] / k[i], 3) : 0;
-                Gas2[i] = Math.Round(Gas2[i] / k[i], 3) >= 0 ? Math.Round(Gas2[i] / k[i], 3) : 0;
-            }
+                double[] k = new double[7];
+                double[] Gas1 = new double[7];
+                double[] Gas2 = new double[7];
 
-            //gán giá trị theo từng mốc lên biểu đồ
-            uc_Gas1Report.srValue.Values = new ChartValues<double> { Gas1[6], Gas1[5], Gas1[4], Gas1[3], Gas1[2], Gas1[1], Gas1[0] };
-            uc_Gas2Report.srValue.Values = new ChartValues<double> { Gas2[6], Gas2[5], Gas2[4], Gas2[3], Gas2[2], Gas2[1], Gas2[0] };
+                foreach (SensorData sensor in lst)
+                {
+                    if (string.IsNullOrEmpty(sensor.Gas2))
+                        sensor.Gas2 = "0";
 
-            //Gán label cho biểu đồ
-            uc_Gas1Report.srValue.Title = "Nồng độ khí gas trung bình phòng bếp";
-            uc_Gas2Report.srValue.Title = "Nồng độ khí gas trung bình phòng bếp";
+                    if (string.IsNullOrEmpty(sensor.Gas1))
+                        sensor.Gas1 = "0";
+
+                    // tính từng thông số theo ngày
+                    if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date)
+                    {
+                        Gas1[0] += double.Parse(sensor.Gas1);
+                        Gas2[0] += double.Parse(sensor.Gas2);
+                        k[0]++;
+                    }
+                    if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-1))
+                    {
+                        Gas1[1] += double.Parse(sensor.Gas1);
+                        Gas2[1] += double.Parse(sensor.Gas2);
+                        k[1]++;
+                    }
+                    if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-2))
+                    {
+                        Gas1[2] += double.Parse(sensor.Gas1);
+                        Gas2[2] += double.Parse(sensor.Gas2);
+                        k[2]++;
+                    }
+                    if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-3))
+                    {
+                        Gas1[3] += double.Parse(sensor.Gas1);
+                        Gas2[3] += double.Parse(sensor.Gas2);
+                        k[3]++;
+                    }
+                    if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-4))
+                    {
+                        Gas1[4] += double.Parse(sensor.Gas1);
+                        Gas2[4] += double.Parse(sensor.Gas2);
+                        k[4]++;
+                    }
+                    if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-5))
+                    {
+                        Gas1[5] += double.Parse(sensor.Gas1);
+                        Gas2[5] += double.Parse(sensor.Gas2);
+                        k[5]++;
+                    }
+                    if (DateTime.Parse(sensor.UpdateTime).Date == DateTime.Now.Date.AddDays(-6))
+                    {
+                        Gas1[6] += double.Parse(sensor.Gas1);
+                        Gas2[6] += double.Parse(sensor.Gas2);
+                        k[6]++;
+                    }
+                }
+
+                k[0] = k[0] > 0 ? k[0] : 1;
+                k[1] = k[1] > 0 ? k[1] : 1;
+                k[2] = k[2] > 0 ? k[2] : 1;
+                k[3] = k[3] > 0 ? k[3] : 1;
+                k[4] = k[4] > 0 ? k[4] : 1;
+                k[5] = k[5] > 0 ? k[5] : 1;
+                k[6] = k[6] > 0 ? k[6] : 1;
+
+                for (int i = 0; i < 7; i++)
+                {
+                    Gas1[i] = Math.Round(Gas1[i] / k[i], 3) >= 0 ? Math.Round(Gas1[i] / k[i], 3) : 0;
+                    Gas2[i] = Math.Round(Gas2[i] / k[i], 3) >= 0 ? Math.Round(Gas2[i] / k[i], 3) : 0;
+                }
+
+                //gán giá trị theo từng mốc lên biểu đồ
+                uc_Gas1Report.srValue.Values = new ChartValues<double> { Gas1[6], Gas1[5], Gas1[4], Gas1[3], Gas1[2], Gas1[1], Gas1[0] };
+                uc_Gas2Report.srValue.Values = new ChartValues<double> { Gas2[6], Gas2[5], Gas2[4], Gas2[3], Gas2[2], Gas2[1], Gas2[0] };
+
+                //Gán label cho biểu đồ
+                uc_Gas1Report.srValue.Title = "Nồng độ khí gas trung bình phòng bếp";
+                uc_Gas2Report.srValue.Title = "Nồng độ khí gas trung bình phòng bếp";
 
 
-            uc_Gas1Report.Label.Labels = new[] {
+                uc_Gas1Report.Label.Labels = new[] {
                            DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
                            DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
                            DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
                            DateTime.Now.ToString("dd/MM/yy")
                    };
 
-            uc_Gas2Report.Label.Labels = new[] {
+                uc_Gas2Report.Label.Labels = new[] {
                            DateTime.Now.AddDays(-6).ToString("dd/MM/yy"), DateTime.Now.AddDays(-5).ToString("dd/MM/yy"),
                            DateTime.Now.AddDays(-4).ToString("dd/MM/yy"), DateTime.Now.AddDays(-3).ToString("dd/MM/yy"),
                            DateTime.Now.AddDays(-2).ToString("dd/MM/yy"), DateTime.Now.AddDays(-1).ToString("dd/MM/yy"),
                            DateTime.Now.ToString("dd/MM/yy")
                    };
 
+            }
+            catch (Exception)
+            {
 
+            }
         }
 
         private void GetCurrentParam()
@@ -157,7 +168,7 @@ namespace FireAlert
             lblGas2.Text = _ss.Gas2;
 
             //Cảnh báo gas tầng 2
-            if (double.Parse(_ss.Gas1) >= 60.0)
+            if (double.Parse(_ss.Gas1) >= 100)
             {
                 if (!_isAlarm1)
                 {
@@ -171,7 +182,7 @@ namespace FireAlert
                 _isAlarm1 = false;
 
             //Cảnh báo gas tầng 3
-            if (double.Parse(_ss.Gas2) >= 60.0)
+            if (double.Parse(_ss.Gas2) >= 100)
             {
                 if (!_isAlarm2)
                 {
@@ -184,9 +195,6 @@ namespace FireAlert
             else
                 _isAlarm2 = false;
 
-            //Cảnh báo cháy tầng 2
-
-            //Cảnh báo cháy tầng 3
         }
 
         /// <summary>
@@ -247,7 +255,7 @@ namespace FireAlert
                 ///Báo cháy tầng 2
                 if (_FireSensor != null)
                 {
-                    if (_FireSensor.Fire1 == "1")
+                    if (_FireSensor.Fire1 == 1)
                     {
                         if (!_isFire1)
                         {
@@ -261,7 +269,7 @@ namespace FireAlert
                         _isFire1 = false;
 
                     ///Báo cháy tầng 2
-                    if (_FireSensor.Fire2 == "1")
+                    if (_FireSensor.Fire2 == 1)
                     {
                         if (!_isFire2)
                         {
@@ -351,6 +359,13 @@ namespace FireAlert
             {
                 GetCurrentParam();
                 GetParamForChart();
+
+                List<AlertHistory> lst = new List<AlertHistory>();
+                lst = oBL.GetAlertHistoryByWeek();
+
+                DataTable dt = new DataTable();
+                dt = ToAlertDataTable(lst);
+                dtgAlert.ItemsSource = dt.DefaultView;
             }
             catch (Exception ee)
             {

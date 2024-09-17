@@ -10,6 +10,9 @@ using Newtonsoft.Json;
 using RestSharp.Extensions;
 using static iTextSharp.text.pdf.events.IndexEvents;
 using System.Reflection;
+using FireSharp.Extensions;
+using System.Text.Json;
+using System.Globalization;
 
 namespace FireAlert
 {
@@ -20,8 +23,8 @@ namespace FireAlert
 
         IFirebaseConfig config = new FirebaseConfig
         {
-            AuthSecret = "AIzaSyDCo4NSp_tt1TV0ol74gR1734NpucwJ7v4",
-            BasePath = "https://smart-house-haui-default-rtdb.asia-southeast1.firebasedatabase.app/"
+            AuthSecret = "gxkXv0WcwZn42ep6BspMHpMCQWuJUbHQccOukI4v",
+            BasePath = "https://firealert-d11d7-default-rtdb.firebaseio.com"
         };
 
 
@@ -37,7 +40,7 @@ namespace FireAlert
 
             if (client != null)
             {
-                var Result = client.Get("/Data");
+                var Result = client.Get("/sensor");
                 Dictionary<string, SensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, SensorData>>(Result.Body.ToString());
 
                 if (sensorDataDict != null)
@@ -73,7 +76,7 @@ namespace FireAlert
 
             if (client != null)
             {
-                var Result = client.Get("/Data");
+                var Result = client.Get("/sensor");
                 Dictionary<string, SensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, SensorData>>(Result.Body.ToString());
 
                 if (sensorDataDict != null)
@@ -111,21 +114,13 @@ namespace FireAlert
 
             if (client != null)
             {
-                var Result = client.Get("/FireStatus");
-                Dictionary<string, FireSensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, FireSensorData>>(Result.Body.ToString());
+                var Result = client.Get("/fire");
+                //Dictionary<string, FireSensorData> sensorDataDict = JsonConvert.DeserializeObject<Dictionary<string, FireSensorData>>(Result.Body.ToString());
+                FireSensorData sensorDataDict = System.Text.Json.JsonSerializer.Deserialize<FireSensorData>(Result.Body.ToString());
 
-                if (sensorDataDict != null)
-                {
-                    foreach (var key in sensorDataDict)
-                    {
-                        DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(key.Value.ID).UtcDateTime;
+                _status.Fire1 = sensorDataDict.Fire1;
+                _status.Fire2 = sensorDataDict.Fire2;
 
-                        _status.ID = key.Value.ID;
-                        _status.UpdateTime = dateTime.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss");
-                        _status.Fire1 = key.Value.Fire1;
-                        _status.Fire2 = key.Value.Fire2;
-                    }
-                }
             }
             return _status;
         }
@@ -140,7 +135,7 @@ namespace FireAlert
 
             if (client != null)
             {
-                FirebaseResponse response = await client.UpdateTaskAsync("/AlertHistory/" + DateTime.Now.ToString("ddMMyyyy"), alert);
+                FirebaseResponse response = await client.UpdateTaskAsync("/AlertHistory/" + DateTime.Now.ToString("ddMMyyyy_HHmmss"), alert);
             }
         }
 
@@ -162,24 +157,71 @@ namespace FireAlert
                 {
                     foreach (var entry in sensorDataDict)
                     {
+                        DateTime dateTime = DateTime.ParseExact(entry.Value.UpdateTime, "HH:mm:ss dd/MM/yyyy", CultureInfo.InvariantCulture);
 
-                        DateTime dateTime = DateTime.Parse(entry.Value.UpdateTime);
-                        ///Lấy lịch sử 7 giờ gần nhất trong ngày
                         if (dateTime.Date <= DateTime.Now.Date && dateTime.Date >= DateTime.Now.AddDays(-7))
                         {
                             AlertHistory _ss = new AlertHistory();
-                            _ss.UpdateTime = dateTime.ToString();
+                            _ss.UpdateTime = entry.Value.UpdateTime;
                             _ss.Messager = entry.Value.Messager;
                             _ss.UpdateBy = entry.Value.UpdateBy;
 
                             lst.Add(_ss);
-
                         }
                     }
                 }
             }
             return lst;
         }
+
+        /// <summary>
+        /// Kéo trạng thái thiết bị
+        /// </summary>
+        /// <returns></returns>
+        public Eqiupment GetEqiupmentstate()
+        {
+            Eqiupment eqiupment = new Eqiupment();
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                var Result = client.Get("/Control");
+                Dictionary<string, string> State = JsonConvert.DeserializeObject<Dictionary<string, string>>(Result.Body.ToString());
+                if (State != null)
+                {
+                    foreach (var key in State)
+                    {
+                        if (key.Key == "Door2")
+                            eqiupment.Door2 = int.Parse(key.Value);
+
+                        if (key.Key == "Fan2")
+                            eqiupment.Fan2 = int.Parse(key.Value);
+
+                        if (key.Key == "Door3")
+                            eqiupment.Door3 = int.Parse(key.Value);
+
+                        if (key.Key == "Fan3")
+                            eqiupment.Fan3 = int.Parse(key.Value);
+                    }
+                }
+            }
+            return eqiupment;
+        }
+
+        /// <summary>
+        /// Set trạng thái thiết bị
+        /// </summary>
+        /// <param name="eqiupment"></param>
+        public async void SetEqiupmentState(Eqiupment eqiupment)
+        {
+            client = new FireSharp.FirebaseClient(config);
+
+            if (client != null)
+            {
+                FirebaseResponse response = await client.UpdateTaskAsync("/Control", eqiupment);
+            }
+        }
+
         ///-----------------------------------------------------------------------------------------------------
         /// <summary>
         /// Lấy danh sách vân tay
@@ -250,62 +292,7 @@ namespace FireAlert
                 FirebaseResponse response = await client.UpdateTaskAsync("/InOutHistory", finger);
             }
         }
-        /// <summary>
-        /// Kéo trạng thái thiết bị
-        /// </summary>
-        /// <returns></returns>
-        public Eqiupment GetEqiupmentstate()
-        {
-            Eqiupment eqiupment = new Eqiupment();
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                var Result = client.Get("/Control");
-                Dictionary<string, string> State = JsonConvert.DeserializeObject<Dictionary<string, string>>(Result.Body.ToString());
-                if (State != null)
-                {
-                    foreach (var key in State)
-                    {
-                        if (key.Key == "Door")
-                            eqiupment.Door = int.Parse(key.Value);
-
-                        if (key.Key == "Lamp1")
-                            eqiupment.Lamp1 = int.Parse(key.Value);
-
-                        if (key.Key == "Fan1")
-                            eqiupment.Fan1 = int.Parse(key.Value);
-
-                        if (key.Key == "Lamp2")
-                            eqiupment.Lamp2 = int.Parse(key.Value);
-
-                        if (key.Key == "Fan2")
-                            eqiupment.Fan2 = int.Parse(key.Value);
-
-                        if (key.Key == "Lamp3")
-                            eqiupment.Lamp3 = int.Parse(key.Value);
-
-                        if (key.Key == "Fan3")
-                            eqiupment.Fan3 = int.Parse(key.Value);
-                    }
-                }
-            }
-            return eqiupment;
-        }
-
-        /// <summary>
-        /// Set trạng thái thiết bị
-        /// </summary>
-        /// <param name="eqiupment"></param>
-        public async void SetEqiupmentState(Eqiupment eqiupment)
-        {
-            client = new FireSharp.FirebaseClient(config);
-
-            if (client != null)
-            {
-                FirebaseResponse response = await client.UpdateTaskAsync("/Control", eqiupment);
-            }
-        }
+        
 
     }
 }

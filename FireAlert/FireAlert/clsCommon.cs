@@ -16,25 +16,16 @@ namespace FireAlert
     /// </summary>
     public class Eqiupment
     {
-        [JsonProperty("Door")]    //Cửa ra vào
-        public int Door { get; set; }
+        [JsonProperty("Door2")]    //Cửa ra vào
+        public int Door2 { get; set; }
 
-        [JsonProperty("Lamp1")]    //Đèn phòng khách
-        public int Lamp1 { get; set; }
-
-        [JsonProperty("Fan1")]    //Quạt phòng khách
-        public int Fan1 { get; set; }
-
-        [JsonProperty("Lamp2")]    //Đèn phòng ngủ
-        public int Lamp2 { get; set; }
-
-        [JsonProperty("Fan2")]    //Quạt phòng ngủ
+        [JsonProperty("Fan2")]    //Quạt phòng khách
         public int Fan2 { get; set; }
 
-        [JsonProperty("Lamp3")]    //Đèn phòng bếp
-        public int Lamp3 { get; set; }
+        [JsonProperty("Door3")]    //Cửa ra vào
+        public int Door3 { get; set; }
 
-        [JsonProperty("Fan3")]    //Quạt phòng bếp
+        [JsonProperty("Fan3")]    //Quạt phòng ngủ
         public int Fan3 { get; set; }
 
     }
@@ -83,17 +74,12 @@ namespace FireAlert
     /// </summary>
     public class FireSensorData
     {
-        [JsonProperty("epoch_time")]    //thời  gian cập nhật
-        public long ID { get; set; }
-
-        public string UpdateTime { get; set; }
-
-      
+             
         [JsonProperty("fire1")]    //Nồng độ khí gas
-        public string Fire1 { get; set; }
+        public int Fire1 { get; set; }
 
         [JsonProperty("fire2")]    //Nồng độ khí gas
-        public string Fire2 { get; set; }
+        public int Fire2 { get; set; }
 
         
     }
