@@ -7,7 +7,7 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        mc:Ignorable="d" 
+        mc:Ignorable="d" WindowState="Maximized"
         xmlns:v="clr-namespace:FireAlert.View"
         Title="MainWindow" Height="980" Width="1750"
         WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
@@ -123,12 +123,12 @@
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
 
-                    <md:Card Height="120" Background="#CFD8CD" VerticalAlignment="Top">
+                    <md:Card Height="120"  Background="#D1C6B8" VerticalAlignment="Top">
                         <StackPanel>
-                            <md:PackIcon Kind="Leaf" Height="35" Width="35" 
+                            <md:PackIcon Kind="Radiator" Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
                             <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblGas1"/>
-                            <TextBlock Text="Nồng độ khí gas tầng 2" VerticalAlignment="Bottom" FontSize="18" 
+                            <TextBlock Text="Nồng độ khí gas trung bình tầng 1" VerticalAlignment="Bottom" FontSize="18" 
                                      Margin="15,10,0,0" FontFamily="Times New Roman" />
 
 
@@ -136,13 +136,29 @@
                     </md:Card>
 
                 </Grid>
-                <Grid Grid.Column="3" >
+                
+                <Grid Grid.Column="3">
+
+                    <md:Card Height="120" Background="#CFD8CD" VerticalAlignment="Top">
+                        <StackPanel>
+                            <md:PackIcon Kind="Leaf" Height="35" Width="35" 
+                                     HorizontalAlignment="Right" Margin="0,10,30,0"/>
+                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblGas2"/>
+                            <TextBlock Text="Nồng độ khí gas trung bình tầng 2" VerticalAlignment="Bottom" FontSize="18" 
+                                     Margin="15,10,0,0" FontFamily="Times New Roman" />
+
+
+                        </StackPanel>
+                    </md:Card>
+
+                </Grid>
+                <Grid Grid.Column="5" >
                     <md:Card Height="120" Background="#D1C6B8" VerticalAlignment="Top">
                         <StackPanel>
                             <md:PackIcon Kind="SatelliteVariant"  Height="35" Width="35" 
                                      HorizontalAlignment="Right" Margin="0,10,30,0"/>
-                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblGas2"/>
-                            <TextBlock Text="Nồng độ khí gas tầng 3" VerticalAlignment="Bottom" FontSize="18" 
+                            <TextBlock Text="00" FontSize="50" Margin="25,-30,0,0" x:Name="lblGas3"/>
+                            <TextBlock Text="Nồng độ khí gas trung bình tầng 3" VerticalAlignment="Bottom" FontSize="18" 
                                      Margin="15,10,0,0" FontFamily="Times New Roman" />
 
 
@@ -182,6 +198,8 @@
                     <ColumnDefinition Width="0.05*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="0.02*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
                     <v:TemplatureLineChart x:Name="uc_Gas1Report"/>
@@ -189,7 +207,10 @@
                 <Grid Grid.Column="3">
                     <v:TemplatureLineChart x:Name="uc_Gas2Report"/>
                 </Grid>
+                <Grid Grid.Column="5">
+                <v:TemplatureLineChart x:Name="uc_Gas3Report"/>
             </Grid>
+        </Grid>
 
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
@@ -198,21 +219,27 @@
                     <ColumnDefinition Width="0.05*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="0.02*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="1">
-                    <TextBlock Text="Biểu đồ lịch sử khí gas" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Biểu đồ lịch sử khí gas tầng 1" VerticalAlignment="Center" HorizontalAlignment="Center"
                             FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <TextBlock Text="Biểu đồ lịch sử cảnh báo cháy" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="Biểu đồ lịch sử khí gas tầng 2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                             FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
+                </Grid>
+                <Grid Grid.Column="5">
+                    <TextBlock Text="Biểu đồ lịch sử khí gas tầng 3" VerticalAlignment="Center" HorizontalAlignment="Center"
                              FontFamily="Times New Roman" FontSize="14" FontWeight="Bold"/>
                 </Grid>
             </Grid>
             <Grid Grid.Row="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.05*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="0.05*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="0.1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="0.02*"/>
                 </Grid.ColumnDefinitions>

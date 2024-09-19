@@ -67,6 +67,9 @@ namespace FireAlert
         [JsonProperty("gas2")]    //Nồng độ khí gas
         public string Gas2 { get; set; }
 
+        [JsonProperty("gas3")]    //Nồng độ khí gas
+        public string Gas3 { get; set; }
+
     }
 
     /// <summary>
@@ -80,6 +83,9 @@ namespace FireAlert
 
         [JsonProperty("fire2")]    //Nồng độ khí gas
         public int Fire2 { get; set; }
+        
+        [JsonProperty("fire3")]    //Nồng độ khí gas
+        public int Fire3 { get; set; }
 
         
     }

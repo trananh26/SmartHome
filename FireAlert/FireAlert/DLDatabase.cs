@@ -55,6 +55,7 @@ namespace FireAlert
 
                         _ss.Gas1 = entry.Value.Gas1;
                         _ss.Gas2 = entry.Value.Gas2;
+                        _ss.Gas3 = entry.Value.Gas3;
 
                         lst.Add(_ss);
                     }
@@ -93,11 +94,13 @@ namespace FireAlert
                             _ss.UpdateTime = dateTime.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss");
                             _ss.Gas1 = entry.Value.Gas1;
                             _ss.Gas2 = entry.Value.Gas2;
+                            _ss.Gas3 = entry.Value.Gas3;
 
                             lst.Add(_ss);
 
                         }
                     }
+                    lst = lst.OrderByDescending(s => s.ID).ToList();
                 }
             }
             return lst;
@@ -120,6 +123,7 @@ namespace FireAlert
 
                 _status.Fire1 = sensorDataDict.Fire1;
                 _status.Fire2 = sensorDataDict.Fire2;
+                _status.Fire3 = sensorDataDict.Fire3;
 
             }
             return _status;
